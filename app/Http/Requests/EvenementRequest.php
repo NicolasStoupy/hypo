@@ -5,24 +5,32 @@ namespace App\Http\Requests;
 use App\Http\Requests\CommonsRules\CreatedBy;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Permet de définir les règles de validation de la demande d'événement.
+ */
 class EvenementRequest extends FormRequest
 {
+
     /**
-     * Determine if the user is authorized to make this request.
+     * Déterminez si l'utilisateur est autorisé à effectuer cette demande.
+     *
+     * @return bool
      */
     public function authorize(): bool
     {
         return true;
     }
 
+    /**
+     * Prépare les données pour la validation en utilisant 'CreatedBy'.
+     */
     public function prepareForValidation()
     {
         CreatedBy::Run($this);
-
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Obtenez les règles de validation qui s'appliquent à la demande.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */

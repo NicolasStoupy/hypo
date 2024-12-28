@@ -21,7 +21,7 @@
                     <td>{{ $client->id }}</td>
                     <td>{{ $client->nom }}</td>
                     <td>{{ $client->email }}</td>
-                    <td>{{ $client->created_by }}</td>
+                    <td>{{ $client->user->name }}</td>
                     <td>
                         <a href="{{ route('client.edit', $client->id) }}" class="btn btn-sm btn-warning">Modifier</a>
                         <form action="{{ route('client.destroy', $client->id) }}" method="POST" style="display: inline-block;">

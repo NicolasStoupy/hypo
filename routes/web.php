@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChartController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EvenementController;
@@ -26,3 +27,5 @@ Route::resource('/client', ClientController::class  );
 //Route::resource('poney', \App\Http\Controllers\CRUD\PoneyController::class);
 Route::resource('evenement', EvenementController::class);
 Route::resource('facture', FactureController::class);
+Route::get('/chart/event',[ChartController::class,'getEventChart']);
+Route::get('/chart/poney',[ChartController::class,'getPoneyChart']);

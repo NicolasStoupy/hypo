@@ -12,4 +12,6 @@ interface IEvenement extends IRepository
 
     function update(EvenementRequest $EvenementRequest, $id);
 
+    function getKpi():array;
+
 }

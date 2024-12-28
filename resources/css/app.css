@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.vertical-line {
+    width: 2px;  /* Largeur de la ligne */
+    height: 100%; /* Hauteur de la ligne (peut être ajustée) */
+    background-color: #000; /* Couleur de la ligne */
+    margin-left: 20px; /* Marge à gauche pour ne pas toucher le contenu */
+    margin-right: 20px; /* Marge à droite pour ne pas toucher le contenu */
+}

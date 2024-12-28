@@ -52,4 +52,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Evenement::class, 'evenement_poneys', 'created_by', 'evenement_id');
     }
 
+    public function factures()
+    {
+        return $this->hasMany(Facture::class,'created_by');
+    }
+
 }

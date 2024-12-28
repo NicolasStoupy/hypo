@@ -8,15 +8,18 @@
         <table class="table table-bordered">
             <thead>
             <tr>
+                <th>id</th>
                 <th>Nom</th>
                 <th>Heures maximales par jour</th>
                 <th>Créé par</th>
+                <th>Nbr Evenement</th>
                 <th>Actions</th>
             </tr>
             </thead>
             <tbody>
             @foreach($data as $poney)
                 <tr>
+                    <td>{{ $poney->id }}</td>
                     <td>{{ $poney->nom }}</td>
                     <td>{{ $poney->max_hour_by_day }}</td>
                     <td>{{ $poney->user->name }}</td>

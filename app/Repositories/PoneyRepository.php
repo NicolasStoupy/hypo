@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Http\Requests\PoneyRequest;
 use App\Models\Poney;
+use App\Models\PoneyActivityKpi;
 use App\Repositories\Interfaces\IPoney;
 
 class PoneyRepository extends BaseRepository implements IPoney
@@ -18,6 +19,7 @@ class PoneyRepository extends BaseRepository implements IPoney
     {
         Poney::Create($poneyRequest->validated());
     }
+
     public function update(PoneyRequest $poneyRequest, $id): void
     {
         $poney = $this->getById($id);
@@ -26,4 +28,8 @@ class PoneyRepository extends BaseRepository implements IPoney
     }
 
 
+    function getKpi()
+    {
+        return PoneyActivityKpi::all();
+    }
 }

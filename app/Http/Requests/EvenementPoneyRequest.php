@@ -4,10 +4,11 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+
 class EvenementPoneyRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Détermine si l'utilisateur est autorisé à faire cette demande.
      */
     public function authorize(): bool
     {
@@ -15,9 +16,8 @@ class EvenementPoneyRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Obtenez les règles de validation qui s'appliquent à la demande.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {

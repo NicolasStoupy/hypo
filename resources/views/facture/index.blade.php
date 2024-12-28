@@ -12,7 +12,6 @@
 
                 <th>Montant</th>
                 <th>Date d'émission</th>
-                <th>Créé par</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -20,9 +19,9 @@
             @foreach($data as $facture)
                 <tr>
                     <td>{{$facture->id}}</td>
-                    <td>{{ number_format($facture->montant, 2, ',', ' ') }} €</td> <!-- Format du montant -->
+                    <td>{{ number_format($facture->total(), 2, ',', ' ') }} €</td> <!-- Format du montant -->
                     <td>{{ $facture->created_at->format('d-m-Y') }}</td> <!-- Format de la date -->
-                    <td>{{ $facture->user->name }}</td> <!-- Relation avec le modèle User -->
+
                     <td>
                         <a href="{{ route('facture.show', $facture->id) }}" class="btn btn-warning btn-sm">Voir</a>
 
@@ -39,7 +38,6 @@
                                 id="toggle-btn-{{ $facture->id }}">Afficher les événements
                         </button>
                     </td>
-
 
 
 
