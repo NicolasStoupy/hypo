@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EmployeeRequest extends FormRequest
+class FactureRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,9 +22,7 @@ class EmployeeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-
+            //
         ];
     }
 }

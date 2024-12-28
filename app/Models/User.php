@@ -45,4 +45,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+
+    public function evenements()
+    {
+        return $this->belongsToMany(Evenement::class, 'evenement_poneys', 'created_by', 'evenement_id');
+    }
+
 }
