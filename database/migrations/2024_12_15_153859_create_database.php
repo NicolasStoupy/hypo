@@ -36,6 +36,7 @@ return new class extends Migration
             $table->id();
             $table->decimal('prix', 8, 2);
             $table->integer('nombre_participant');
+            $table->string('nom');
             $table->timestamp('date_debut');
             $table->timestamp('date_fin');
             $table->timestamps();

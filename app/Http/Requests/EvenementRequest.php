@@ -44,6 +44,7 @@ class EvenementRequest extends FormRequest
             'client_id' => 'required|exists:clients,id', // Le client doit exister dans la table 'clients'
             'facture_id' => 'nullable|exists:factures,id', // Si fourni, la facture doit exister dans la table 'factures'
             'created_by' => 'required|exists:users,id', // L'utilisateur créant l'événement doit exister
+            'nom'=>'required|string'
         ];
     }
 

@@ -17,9 +17,11 @@ class EvenementController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = $this->repos->evenement()->getAll();
+        $search = $request->get('search');
+
+        $data = $this->repos->evenement()->paginate(5,$search);
         return view('evenement.index', compact('data'));
     }
 
@@ -40,6 +42,7 @@ class EvenementController extends Controller
      */
     public function store(EvenementRequest $evenementRequest)
     {
+
         $this->repos->evenement()->create($evenementRequest);
         return redirect()->route('evenement.index');
     }

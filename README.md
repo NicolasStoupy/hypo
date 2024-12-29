@@ -93,3 +93,4 @@ Une fois toutes les étapes d'installation terminées, vous pouvez démarrer le 
 php artisan serve
 ```
 Le serveur sera accessible à l'adresse <http://localhost:8000>.
+c

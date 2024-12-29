@@ -1,14 +1,23 @@
 @extends('layouts.app')
-
 @section('content')
-    <div class="container mt-4">
-        <h1 class="mb-4">Liste des Événements</h1>
-        <a href="{{ route('evenement.create') }}" class="btn btn-primary mb-3">Créer un nouvel événement</a>
+    <div class="container mt-1">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="mb-0">Liste des Événements</h1>
+            <a href="{{ route('evenement.create') }}" class="btn btn-primary mb-0">Créer un nouvel événement</a>
+        </div>
 
-        <table class="table table-bordered">
+        <form method="GET" action="{{ route('evenement.index') }}" class="mb-4">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Rechercher un événement..."
+                       value="{{ request('search') }}">
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+            </div>
+        </form>
+        <table class="table table-sm table-bordered">
             <thead>
             <tr>
                 <th>Id</th>
+                <th>Nom</th>
                 <th>Prix</th>
                 <th>Nombre de participants</th>
                 <th>Date de début</th>
@@ -23,6 +32,7 @@
             @foreach($data as $evenement)
                 <tr>
                     <td>{{ $evenement->id}} </td>
+                    <td>{{ $evenement->nom}} </td>
                     <td>{{ number_format($evenement->prix, 2) }} €</td>
                     <td>{{ $evenement->nombre_participant }}</td>
                     <td>{{ $evenement->date_debut }}</td>
@@ -43,5 +53,9 @@
             @endforeach
             </tbody>
         </table>
+        <div class="d-flex justify-content-center mt-4">
+            {{ $data->links('pagination::bootstrap-5') }}
+        </div>
+
     </div>
 @endsection

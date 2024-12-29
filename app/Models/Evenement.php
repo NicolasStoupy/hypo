@@ -18,8 +18,27 @@ class Evenement extends Model
         'nombre_participant',
         'facture_id',
         'client_id',
-        'created_by',
+        'created_by','nom'
     ];
+    public function scopeSearch($query, $term)
+    {
+
+        if ($term) {
+            return $query->where('prix', 'like', "%$term%")
+                ->orWhere('nom', 'like', "%$term%")
+                ->orWhere('nombre_participant', 'like', "%$term%")
+                ->orWhere('date_debut', 'like', "%$term%")
+                ->orWhere('date_fin', 'like', "%$term%")
+                ->orWhereHas('client', function ($q) use ($term) {
+                    $q->where('nom', 'like', "%$term%");
+                })
+                ->orWhereHas('facture', function ($q) use ($term) {
+                    $q->where('id', 'like', "%$term%");
+                });
+        }
+
+        return $query;
+    }
 
     public function facture()
     {

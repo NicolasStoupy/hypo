@@ -2,9 +2,17 @@
 
 @section('content')
 
-    <div class="container mt-4">
-        <h1 class="mb-4">Liste des Poneys</h1>
-        <a href="{{ route('poney.create') }}" class="btn btn-primary mb-3">Créer un nouveau poney</a>
+    <div class="container mt-1">
+        <h1 class="mb-1">Liste des Poneys</h1>
+        <a href="{{ route('poney.create') }}" class="btn btn-primary mb-1">Créer un nouveau poney</a>
+        <form method="GET" action="{{ route('poney.index') }}" class="mb-4">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Rechercher un poney..."
+                       value="{{ request('search') }}">
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+            </div>
+        </form>
+
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -37,5 +45,8 @@
             @endforeach
             </tbody>
         </table>
+        <div class="d-flex justify-content-center mt-4">
+            {{ $data->links('pagination::bootstrap-5') }}
+        </div>
     </div>
 @endsection

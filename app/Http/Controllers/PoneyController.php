@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PoneyRequest;
 use App\Repositories\Interfaces\IApplicationContext;
 use App\Repositories\Interfaces\IPoney;
+use Illuminate\Http\Request;
 use Masmerise\Toaster\Toaster;
 
 class PoneyController extends Controller
@@ -18,13 +19,12 @@ class PoneyController extends Controller
         //
     }
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    public function index(Request $request)
     {
+        $search = $request->get('search');
         $this->repos->facture()->getAll();
-        $data = $this->repos->poney()->getAll();
+        $data = $this->repos->poney()->paginate(5,$search);
         return view('Poney.index', compact('data'));
     }
 

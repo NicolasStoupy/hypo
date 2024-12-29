@@ -1,4 +1,12 @@
 <div class="mb-3">
+    <label for="nom" class="form-label">Nom:</label>
+    <input type="text" id="nom" name="nom" value="{{ old('nom', $data->nom ?? '') }}"
+           class="form-control" required>
+    @error('nom')
+    <div class="alert alert-danger mt-2">{{ $message }}</div>
+    @enderror
+</div>
+<div class="mb-3">
     <label for="prix" class="form-label">Prix:</label>
     <input type="number" step="0.01" id="prix" name="prix" value="{{ old('prix', $data->prix ?? '0') }}"
            class="form-control" required>

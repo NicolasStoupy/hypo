@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
         Facture::factory(10)->create();
 
         // Seed evenements
-        Evenement::factory(10)->create([
+        Evenement::factory(1000)->create([
             'created_by' => User::inRandomOrder()->first()->id,
             'facture_id' => Facture::inRandomOrder()->first()->id,
             'client_id' => Client::inRandomOrder()->first()->id,
