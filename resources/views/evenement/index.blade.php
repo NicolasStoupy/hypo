@@ -26,6 +26,7 @@
                 <th>Facture</th>
                 <th>Créé par</th>
                 <th>Actions</th>
+                <th>Status</th>
             </tr>
             </thead>
             <tbody>
@@ -40,6 +41,7 @@
                     <td>{{ $evenement->client->nom }}</td> <!-- Assurez-vous que la relation 'client' est définie sur le modèle Evenement -->
                     <td>{{ $evenement->facture->id ?? 'Non attribuée' }}</td>
                     <td>{{ $evenement->user->name }}</td> <!-- Assurez-vous que la relation 'user' est définie sur le modèle Evenement -->
+                    <td>{{$evenement->status_id}}</td>
                     <td>
                         <a href="{{ route('evenement.show', $evenement->id) }}" class="btn btn-warning btn-sm">Modifier</a>
 

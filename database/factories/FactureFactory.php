@@ -17,10 +17,13 @@ class FactureFactory extends Factory
      */
     public function definition(): array
     {
+        $status = new StatusFactory();
+
         return [
 
             'created_at' => $this->faker->dateTime(),
             'updated_at' => $this->faker->dateTime(),
+            'status_id' => $this->faker->randomElement( $status->getStatus())
         ];
     }
 }

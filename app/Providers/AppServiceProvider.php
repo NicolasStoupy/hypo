@@ -14,8 +14,10 @@ use App\Repositories\Interfaces\IClient;
 use App\Repositories\Interfaces\IEvenement;
 use App\Repositories\Interfaces\IFacture;
 use App\Repositories\Interfaces\IPoney;
+use App\Repositories\Interfaces\IStatus;
 use App\Repositories\PoneyRepository;
 use App\Repositories\Repository;
+use App\Repositories\StatusRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -31,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IClient::class, ClientRepository::class);
         $this->app->bind(IEvenement::class,EvenementRepository::class);
         $this->app->bind(IFacture::class,FactureRepository::class);
+        $this->app->bind(IStatus::class,StatusRepository::class);
 
     }
 

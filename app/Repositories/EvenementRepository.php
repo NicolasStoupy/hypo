@@ -7,7 +7,10 @@ use App\Models\Evenement;
 use App\Repositories\Interfaces\IEvenement;
 use App\Repositories\BaseRepository;
 use Carbon\Carbon;
+use Exception;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class EvenementRepository extends BaseRepository implements IEvenement
 {
@@ -39,5 +42,25 @@ class EvenementRepository extends BaseRepository implements IEvenement
             ->orderByRaw('strftime("%Y-%W", date_debut) ASC')  // Trier par semaine
             ->get();
         return $events->toArray();
+    }
+
+    function getEvenementsByDate($date): Collection
+    {
+        try {
+            if(!isset($date)) return $this->getAll();
+            // Parse la date et s'assurer qu'elle est valide
+            $parsedDate = Carbon::parse($date)->format('Y-m-d');
+
+            // Récupère les événements en filtrant par date (sans l'heure)
+            $events = Evenement::whereDate('date_evenement', '=', $parsedDate)
+                ->orderBy('date_debut', 'asc')
+                ->get();
+
+            return $events;
+        } catch (Exception $e) {
+            // En cas d'erreur, vous pouvez logguer ou gérer l'exception
+            Log::error("Erreur lors de la récupération des événements : " . $e->getMessage());
+            return collect();  // Retourne une collection vide en cas d'erreur
+        }
     }
 }

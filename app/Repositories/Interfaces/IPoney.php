@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Repositories\Interfaces;
+namespace App\Repositories\Interfaces {
 
-use App\Http\Requests\PoneyRequest;
+    use App\Http\Requests\PoneyRequest;
 
-interface IPoney extends IRepository
-{
+    interface IPoney extends IRepository
+    {
 
 
-    public function create(PoneyRequest $poneyRequest);
+        public function create(PoneyRequest $poneyRequest);
 
-    function update(PoneyRequest $poneyRequest, $id);
-    function getKpi();
+        function update(PoneyRequest $poneyRequest, $id);
+        function getKpi();
 
+    }
 }

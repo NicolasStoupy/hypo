@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,7 +19,10 @@ class Evenement extends Model
         'nombre_participant',
         'facture_id',
         'client_id',
-        'created_by','nom'
+        'created_by',
+        'nom',
+        'date_evenement',
+        'status_id'
     ];
     public function scopeSearch($query, $term)
     {
@@ -58,6 +62,30 @@ class Evenement extends Model
     public function poneys()
     {
         return $this->belongsToMany(Poney::class, 'evenement_poneys', 'evenement_id', 'poney_id');
+    }
+
+    public function status(){
+        return $this->hasOne(Status::class,'status_id');
+    }
+
+    public function getTimeRange(): string
+    {
+        $start = Carbon::parse($this->date_debut);
+        $end = Carbon::parse($this->date_fin);
+
+        return $start->format('H:i') . ' à ' . $end->format('H:i');
+    }
+
+    public function isToday():bool{
+        return Carbon::parse($this->date_debut)->isToday();
+    }
+
+    public function isNow():bool{
+        // Arrondir la date_debut et l'heure actuelle à 15 minutes près
+        $roundedDateDebut = Carbon::parse($this->date_debut)->floor('15 minutes');
+        $roundedNow = Carbon::now()->floor('15 minutes');
+
+        return $roundedDateDebut->eq($roundedNow);
     }
 
 

@@ -1,27 +1,31 @@
 <?php
 
+/**
+ * Class GestionController
+ *
+ * Controller for managing events within the application.
+ */
+
 namespace App\Http\Controllers {
 
     use App\Repositories\Interfaces\IApplicationContext;
     use Illuminate\Http\Request;
 
-    class FactureController extends Controller
+    class GestionController extends Controller
     {
-
 
         public function __construct(protected IApplicationContext $repos)
         {
-
         }
 
         /**
          * Display a listing of the resource.
          */
-        public function index()
+        public function index(Request $request)
         {
-            $data = $this->repos->facture()->getAll();
-
-            return view('Facture.index', compact('data'));
+            $date=$request->get('date')??date('Y-m-d');
+            $evenements = $this->repos->evenement()->getEvenementsByDate($date);
+            return view('gestion.index', compact('evenements', 'date'));
         }
 
         /**
@@ -29,7 +33,7 @@ namespace App\Http\Controllers {
          */
         public function create()
         {
-            return view('Facture.create');
+            //
         }
 
         /**

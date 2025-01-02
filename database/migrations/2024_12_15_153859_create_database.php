@@ -22,6 +22,7 @@ return new class extends Migration
         Schema::create('factures', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->foreignId('status_id')->constrained('status')->cascadeOnDelete();
         });
 
         Schema::create('clients', function (Blueprint $table) {
@@ -35,6 +36,7 @@ return new class extends Migration
         Schema::create('evenements', function (Blueprint $table) {
             $table->id();
             $table->decimal('prix', 8, 2);
+            $table->date('date_evenement');
             $table->integer('nombre_participant');
             $table->string('nom');
             $table->timestamp('date_debut');
@@ -43,6 +45,7 @@ return new class extends Migration
             $table->foreignId('facture_id')->nullable()->constrained('factures');
             $table->foreignId('client_id')->constrained('clients');
             $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('status_id')->constrained('status')->cascadeOnDelete();
         });
 
         Schema::create('evenement_poneys', function (Blueprint $table) {
@@ -51,6 +54,13 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignId('created_by')->constrained('users');
             $table->primary(['evenement_id', 'poney_id']);
+        });
+
+        Schema::create('status',function (Blueprint $table){
+            $table->string('id',10);
+            $table->primary('id');
+            $table->string('description');
+            $table->timestamps();
         });
     }
 

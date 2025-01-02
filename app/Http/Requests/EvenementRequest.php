@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\CommonsRules\CreatedBy;
+use App\Models\Status;
 use Illuminate\Foundation\Http\FormRequest;
+use Carbon\Carbon;
 
 /**
  * Permet de définir les règles de validation de la demande d'événement.
@@ -27,6 +29,17 @@ class EvenementRequest extends FormRequest
     public function prepareForValidation()
     {
         CreatedBy::Run($this);
+        if ($this->has('date_debut')) {
+            $date_formated = Carbon::parse($this->date_debut)->format('Y-m-d');
+            $this->merge(['date_evenement' => $date_formated]);
+        }
+
+        if(!$this->request->get('_method') == 'PUT') {
+            $this->merge(['status_id' => 'PR'] );
+
+        }
+
+
     }
 
     /**
@@ -44,7 +57,9 @@ class EvenementRequest extends FormRequest
             'client_id' => 'required|exists:clients,id', // Le client doit exister dans la table 'clients'
             'facture_id' => 'nullable|exists:factures,id', // Si fourni, la facture doit exister dans la table 'factures'
             'created_by' => 'required|exists:users,id', // L'utilisateur créant l'événement doit exister
-            'nom'=>'required|string'
+            'nom' => 'required|string',
+            'date_evenement' => 'required|date',
+            'status_id'=>'required|string'
         ];
     }
 

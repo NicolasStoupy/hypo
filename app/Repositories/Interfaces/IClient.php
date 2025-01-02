@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Repositories\Interfaces;
+namespace App\Repositories\Interfaces {
 
-use App\Http\Requests\ClientRequest;
+    use App\Http\Requests\ClientRequest;
 
-interface IClient extends IRepository
-{
+    interface IClient extends IRepository
+    {
 
-    public function create(ClientRequest $ClientRequest);
+        public function create(ClientRequest $ClientRequest);
 
-    function update(ClientRequest $ClientRequest, $id);
+        function update(ClientRequest $ClientRequest, $id);
 
+    }
 }

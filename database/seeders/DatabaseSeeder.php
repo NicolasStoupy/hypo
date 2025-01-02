@@ -7,7 +7,9 @@ use App\Models\Evenement;
 use App\Models\EvenementPoney;
 use App\Models\Facture;
 use App\Models\Poney;
+use App\Models\Status;
 use App\Models\User;
+use Database\Factories\StatusFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,8 +20,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::factory(10)->create();
-
-
+        (new \Database\Factories\StatusFactory)->createStatuses();
         // Seed poneys
         Poney::factory(20)->create([
             'created_by' => User::inRandomOrder()->first()->id,

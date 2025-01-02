@@ -74,3 +74,22 @@
     <div class="alert alert-danger mt-2">{{ $message }}</div>
     @enderror
 </div>
+
+<div class="mb-3">
+    <label for="status_id" class="form-label">Status:</label>
+    <select id="status_id" name="status_id" class="form-control" required="">
+        <option value="">Sélectionnez un status</option>
+        @foreach($status as $statu)
+            {{dump($statu->id)}}
+            <option value="{{ $statu->id }}"
+                {{ old('status_id', $data->status_id ?? '') == $statu->id ? 'selected' : '' }}>
+                {{ $statu->description }}
+            </option>
+        @endforeach
+    </select>
+
+
+    @error('status_id')
+    <div class="alert alert-danger mt-2">{{ $message }}</div>
+    @enderror
+</div>

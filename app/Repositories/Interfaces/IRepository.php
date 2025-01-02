@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Repositories\Interfaces;
+namespace App\Repositories\Interfaces {
 
-interface IRepository
-{
+    interface IRepository
+    {
 
-    public function getAll();
-    public function paginate($perPage,$shearch);
+        public function getAll();
+        public function paginate($perPage,$shearch);
 
-    public function deleteById($id);
+        public function deleteById($id);
 
-    public function getById($id);
+        public function getById($id);
 
 
+    }
 }

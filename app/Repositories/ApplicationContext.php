@@ -7,13 +7,15 @@ use App\Repositories\Interfaces\IClient;
 use App\Repositories\Interfaces\IEvenement;
 use App\Repositories\Interfaces\IFacture;
 use App\Repositories\Interfaces\IPoney;
+use App\Repositories\Interfaces\IStatus;
 
 class ApplicationContext implements IApplicationContext
 {
     public function __construct(protected IPoney     $poneyRepository,
                                 protected IClient    $clientRepository,
                                 protected IEvenement $evenementRepository,
-                                protected IFacture   $factureRepository)
+                                protected IFacture   $factureRepository,
+                                protected IStatus    $statusRepository)
     {
 
     }
@@ -39,6 +41,10 @@ class ApplicationContext implements IApplicationContext
         return $this->factureRepository;
     }
 
+    public function status(): IStatus
+    {
+        return $this->statusRepository;
+    }
     public function beginTransaction(): void
     {
         DB::beginTransaction();
@@ -53,6 +59,7 @@ class ApplicationContext implements IApplicationContext
     {
         DB::rollBack();
     }
+
 
 
 }

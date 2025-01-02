@@ -1,17 +1,20 @@
 <?php
 
-namespace App\Repositories\Interfaces;
+namespace App\Repositories\Interfaces {
 
-use App\Http\Requests\ClientRequest;
-use App\Http\Requests\EvenementRequest;
+    use App\Http\Requests\ClientRequest;
+    use App\Http\Requests\EvenementRequest;
 
-interface IEvenement extends IRepository
-{
+    interface IEvenement extends IRepository
+    {
 
-    public function create(EvenementRequest $EvenementRequest);
+        public function create(EvenementRequest $EvenementRequest);
 
-    function update(EvenementRequest $EvenementRequest, $id);
+        function update(EvenementRequest $EvenementRequest, $id);
 
-    function getKpi():array;
+        function getKpi():array;
 
+        function getEvenementsByDate($date);
+
+    }
 }

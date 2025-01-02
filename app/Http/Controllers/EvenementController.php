@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EvenementRequest;
 use App\Repositories\Interfaces\IApplicationContext;
 use Illuminate\Http\Request;
+use function Termwind\parse;
 
 class EvenementController extends Controller
 {
@@ -32,9 +33,11 @@ class EvenementController extends Controller
     {
         $factures = $this->repos->facture()->getAll();
         $clients = $this->repos->client()->getAll();
+        $status =$this->repos->status()->getAll();
 
 
-        return view('evenement.create', compact('factures', 'clients'));
+
+        return view('evenement.create', compact('factures', 'clients','status'));
     }
 
     /**
@@ -55,7 +58,9 @@ class EvenementController extends Controller
         $factures = $this->repos->facture()->getAll();
         $clients = $this->repos->client()->getAll();
         $data = $this->repos->evenement()->getById($id);
-        return view('evenement.edit', compact('data', 'factures', 'clients'));
+        $status =$this->repos->status()->getAll();
+
+        return view('evenement.edit', compact('data', 'factures', 'clients','status'));
     }
 
     /**
