@@ -33,3 +33,5 @@ Route::get('/chart/event',[ChartController::class,'getEventChart']);
 Route::get('/chart/poney',[ChartController::class,'getPoneyChart']);
 Route::resource('gestion', GestionController::class);
 Route::resource('status', StatusController::class);
+Route::post('selectPoney',[GestionController::class,'selectPoney'])->name('selectPoney');
+Route::post('updatePoney',[GestionController::class,'updatePoney'])->name('updatePoney');

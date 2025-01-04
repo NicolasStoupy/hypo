@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Http\Requests\EvenementPoneyRequest;
 use App\Http\Requests\EvenementRequest;
 use App\Models\Evenement;
 use App\Repositories\Interfaces\IEvenement;
@@ -47,7 +48,7 @@ class EvenementRepository extends BaseRepository implements IEvenement
     function getEvenementsByDate($date): Collection
     {
         try {
-            if(!isset($date)) return $this->getAll();
+            if (!isset($date)) return $this->getAll();
             // Parse la date et s'assurer qu'elle est valide
             $parsedDate = Carbon::parse($date)->format('Y-m-d');
 
@@ -63,4 +64,24 @@ class EvenementRepository extends BaseRepository implements IEvenement
             return collect();  // Retourne une collection vide en cas d'erreur
         }
     }
+
+    public function addPoney(EvenementPoneyRequest $evenementPoneyRequest,$poneyToReplace = null)
+    {
+        $evenement = $this->getById($evenementPoneyRequest->evenement_id);
+        $distinctPoneys = $evenement->poneys()->pluck('id');
+
+        // Supprimer l'ID du poney à remplacer
+        $distinctPoneys = $distinctPoneys->reject(function ($id) use ($poneyToReplace) {
+            return $id == $poneyToReplace;
+        });
+
+        // Ajouter le nouveau poney
+        $distinctPoneys->push($evenementPoneyRequest->poney_id);
+
+        // Synchroniser les poneys avec l'événement
+        $evenement->poneys()->sync($distinctPoneys->toArray());
+
+
+    }
+
 }

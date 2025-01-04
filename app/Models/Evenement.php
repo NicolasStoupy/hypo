@@ -24,6 +24,7 @@ class Evenement extends Model
         'date_evenement',
         'status_id'
     ];
+
     public function scopeSearch($query, $term)
     {
 
@@ -64,8 +65,9 @@ class Evenement extends Model
         return $this->belongsToMany(Poney::class, 'evenement_poneys', 'evenement_id', 'poney_id');
     }
 
-    public function status(){
-        return $this->hasOne(Status::class,'status_id');
+    public function status()
+    {
+        return $this->hasOne(Status::class, 'id', localKey: 'status_id');
     }
 
     public function getTimeRange(): string
@@ -76,16 +78,34 @@ class Evenement extends Model
         return $start->format('H:i') . ' à ' . $end->format('H:i');
     }
 
-    public function isToday():bool{
+    public function isToday(): bool
+    {
         return Carbon::parse($this->date_debut)->isToday();
     }
 
-    public function isNow():bool{
+    public function isNow(): bool
+    {
         // Arrondir la date_debut et l'heure actuelle à 15 minutes près
         $roundedDateDebut = Carbon::parse($this->date_debut)->floor('15 minutes');
         $roundedNow = Carbon::now()->floor('15 minutes');
 
         return $roundedDateDebut->eq($roundedNow);
+    }
+
+    public function qtyOfPoneysSelected(): int
+    {
+       return  $this->poneys->count() ;
+    }
+
+    public function getPoneysAvailaible(){
+
+        // Récupérer les poneys déjà assignés à un événement
+        $poney_event = $this->poneys()->pluck('id'); // Récupère les IDs des poneys assignés
+
+        // Récupérer les poneys non assignés
+        $available_poneys = Poney::whereNotIn('id', $poney_event)->get();
+
+        return $available_poneys;
     }
 
 

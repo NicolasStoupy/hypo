@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $evenements = Evenement::inRandomOrder()->take(10)->get();
         $poneys = Poney::inRandomOrder()->take(10)->get();
-        $users = User::inRandomOrder()->take(10)->get();
+
 
 // Créer les 10 enregistrements de manière unique
         $evenementsPoneys = collect();
@@ -55,7 +55,6 @@ class DatabaseSeeder extends Seeder
                     $evenementsPoneys->push([
                         'evenement_id' => $evenement->id,
                         'poney_id' => $poney->id,
-                        'created_by' => $users->random()->id,
                         'created_at' => now(),
                         'updated_at' => now(),
                     ]);

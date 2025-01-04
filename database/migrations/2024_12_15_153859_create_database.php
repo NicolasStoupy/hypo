@@ -52,7 +52,7 @@ return new class extends Migration
             $table->foreignId('evenement_id')->constrained('evenements')->cascadeOnDelete();
             $table->foreignId('poney_id')->constrained('poneys')->cascadeOnDelete();
             $table->timestamps();
-            $table->foreignId('created_by')->constrained('users');
+
             $table->primary(['evenement_id', 'poney_id']);
         });
 

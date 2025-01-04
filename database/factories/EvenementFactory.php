@@ -28,14 +28,13 @@ class EvenementFactory extends Factory
         $date_evenement = Carbon::parse($dateDebut)->format('Y-m-d');
         return [
             'prix' => $this->faker->randomFloat(2, 50, 1000),  // Prix entre 50 et 1000
-            'nombre_participant' => $this->faker->numberBetween(1, 100),
+            'nombre_participant' => $this->faker->numberBetween(1, 5),
             'facture_id' => $this->faker->numberBetween(1, 5),  // ID de facture existant
             'date_debut' => $dateDebut,
             'date_fin' => $dateFin,
             'nom'=>$this->faker->name,
             'date_evenement'=>$date_evenement,
             'client_id' => $this->faker->numberBetween(1, 10),  // ID de client existant
-            'created_by' => $this->faker->numberBetween(1, 5),   // ID d'utilisateur existant
             'created_at' => $this->faker->dateTime(),
             'updated_at' => $this->faker->dateTime(),
             'status_id' => $this->faker->randomElement( $status->getStatus())
