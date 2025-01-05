@@ -35,11 +35,20 @@ class DatabaseSeeder extends Seeder
         Facture::factory(10)->create();
 
         // Seed evenements
-        Evenement::factory(1000)->create([
-            'created_by' => User::inRandomOrder()->first()->id,
-            'facture_id' => Facture::inRandomOrder()->first()->id,
-            'client_id' => Client::inRandomOrder()->first()->id,
-        ]);
+        $userIds = User::pluck('id')->toArray();
+        $factureIds = Facture::pluck('id')->toArray();
+        $clientIds = Client::pluck('id')->toArray();
+
+        for ($i = 1; $i < 10; $i++) {
+
+            Evenement::factory(10)->create([
+                'created_by' => $userIds[array_rand($userIds)],
+                'facture_id' => $factureIds[array_rand($factureIds)],
+                'client_id' => $clientIds[array_rand($clientIds)],
+            ]);
+
+        }
+
         $evenements = Evenement::inRandomOrder()->take(10)->get();
         $poneys = Poney::inRandomOrder()->take(10)->get();
 

@@ -16,6 +16,7 @@ namespace App\Repositories\Interfaces {
         function getKpi():array;
 
         function getEvenementsByDate($date);
+        function getEvenementsByYear($year);
 
         function addPoney(EvenementPoneyRequest $evenementPoneyRequest,$poneyToReplace = null);
 

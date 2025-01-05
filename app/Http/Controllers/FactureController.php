@@ -3,6 +3,7 @@
 namespace App\Http\Controllers {
 
     use App\Repositories\Interfaces\IApplicationContext;
+    use Carbon\Carbon;
     use Illuminate\Http\Request;
 
     class FactureController extends Controller
@@ -71,5 +72,34 @@ namespace App\Http\Controllers {
         {
             //
         }
+
+        /**
+         * Gère la logique de l'affichage de la page de gestion des factures, en fonction de l'année sélectionnée.
+         * Si aucune année n'est spécifiée dans la requête, l'année en cours est utilisée par défaut.
+         *
+         * @return \Illuminate\View\View
+         */
+        public function gestion()
+        {
+            // Récupérer l'année sélectionnée dans la requête, ou utiliser l'année en cours si aucune année n'est spécifiée
+            $selectedYear = request()->get('year', Carbon::now()->year);
+
+            // S'assurer que l'année est bien un entier, sinon utiliser l'année actuelle
+            $selectedYear = (int) $selectedYear;
+
+            // Récupérer les facturiers pour l'année spécifiée
+            $facturiers = $this->repos->facture()->getFacturier($selectedYear);
+
+            // Récupérer les événements des clients associés aux facturiers pour l'année spécifiée
+            $evenements = $this->repos->facture()->getFacturierClient($selectedYear);
+
+            $facturier_current= $this->repos->facture()->getCurrentMonthFacturierClient();
+
+
+            // Retourner la vue avec les données de facturiers, événements et l'année sélectionnée
+            return view('facture.gestion_facture', compact('facturiers', 'evenements', 'selectedYear','facturier_current'));
+        }
+
+
     }
 }

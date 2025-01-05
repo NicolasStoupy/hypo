@@ -24,7 +24,7 @@ class EvenementFactory extends Factory
         $status = new  StatusFactory();
 
         $dateDebut = $this->faker->dateTimeBetween('-365 days', '+50 day'); // Génère une date aléatoire dans le passé (entre 1 et 10 jours avant aujourd'hui)
-        $dateFin = (clone $dateDebut)->modify('+1 hour'); // Ajoute 1 jour et 1 heure à `date_debut`
+        $dateFin = (clone $dateDebut)->modify('+1 hour'); // Ajoute  1 heure à `date_debut`
         $date_evenement = Carbon::parse($dateDebut)->format('Y-m-d');
         return [
             'prix' => $this->faker->randomFloat(2, 50, 1000),  // Prix entre 50 et 1000

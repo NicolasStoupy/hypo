@@ -15,23 +15,29 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-//Route::get('', [App\Http\Controllers\EmployeeController::class, 'index'])->name('home')->middleware([App\Http\Middleware\Auth::class, 'auth']);
-//Route::get('/home', [App\Http\Controllers\EmployeeController::class, 'index'])->name('home')->middleware([App\Http\Middleware\Auth::class, 'auth']);
 
-//Route::get('/employee', [App\Http\Controllers\EmployeeController::class, 'index'])
-//    ->name('employee')
-//    ->middleware([App\Http\Middleware\Auth::class, 'auth']);
-//Route::resource('employees', EmployeeController::class)->middleware([App\Http\Middleware\Auth::class, 'auth']);
-Route::get('/',[HomeController::class, 'index']);
-Route::get('/home', [HomeController::class, 'index']);
-Route::resource('/poney', PoneyController::class);
-Route::resource('/client', ClientController::class  );
-//Route::resource('poney', \App\Http\Controllers\CRUD\PoneyController::class);
-Route::resource('evenement', EvenementController::class);
-Route::resource('facture', FactureController::class);
-Route::get('/chart/event',[ChartController::class,'getEventChart']);
-Route::get('/chart/poney',[ChartController::class,'getPoneyChart']);
-Route::resource('gestion', GestionController::class);
-Route::resource('status', StatusController::class);
-Route::post('selectPoney',[GestionController::class,'selectPoney'])->name('selectPoney');
-Route::post('updatePoney',[GestionController::class,'updatePoney'])->name('updatePoney');
+Route::middleware([App\Http\Middleware\Auth::class, 'auth'])->group(function () {
+
+    // Home page
+    Route::get('/', [HomeController::class, 'index']);
+    Route::get('/home', [HomeController::class, 'index']);
+
+    // Routes pour les resources
+    Route::resource('/poney', PoneyController::class);
+    Route::resource('/client', ClientController::class);
+    Route::resource('/evenement', EvenementController::class);
+
+    Route::get('/facture/gestion',[FactureController::class,'gestion'])->name('facturier');
+    Route::resource('/facture', FactureController::class);
+    Route::resource('/gestion', GestionController::class);
+    Route::resource('/status', StatusController::class);
+    Route::resource('/gestion',GestionController::class);
+
+    // Routes pour les graphiques
+    Route::get('/chart/event', [ChartController::class, 'getEventChart']);
+    Route::get('/chart/poney', [ChartController::class, 'getPoneyChart']);
+
+    // Routes spécifiques
+    Route::post('/selectPoney', [GestionController::class, 'selectPoney'])->name('selectPoney');
+    Route::post('/updatePoney', [GestionController::class, 'updatePoney'])->name('updatePoney');
+});

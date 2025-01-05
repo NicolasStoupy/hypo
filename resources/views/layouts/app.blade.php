@@ -44,7 +44,9 @@
                         <a class="nav-link text-white" href="/home">{{ __('Home') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">{{ __('Gestion Journalière') }}</a>
+                        <a class="nav-link text-white" href="{{ route('gestion.index') }}">{{ __('Gestion Journalière') }}</a>
+                    </li>   <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ route('facturier') }}">{{ __('Facturier') }}</a>
                     </li>
                     <li class="nav-item dropdown relative">
                         <!-- Dropdown Toggle Button -->
@@ -72,7 +74,7 @@
                                 </a>
 
                             </li>
-                            <!-- Vous pouvez ajouter plus d'éléments ici -->
+
                         </ul>
                     </li>
 

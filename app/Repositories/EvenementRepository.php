@@ -84,4 +84,8 @@ class EvenementRepository extends BaseRepository implements IEvenement
 
     }
 
+    public function getEvenementsByYear($year)
+    {
+        return Evenement::whereYear('date_debut', $year)->get();
+    }
 }
