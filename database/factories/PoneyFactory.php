@@ -17,7 +17,7 @@ class PoneyFactory extends Factory
     public function definition(): array
     {
         return [
-            'nom' => $this->faker->unique()->word,
+            'nom' => $this->faker->firstName(),
             'max_hour_by_day' => $this->faker->numberBetween(1, 8),
             'created_by' => $this->faker->numberBetween(1, 5),  // ID d'utilisateur existant
             'created_at' => $this->faker->dateTime(),

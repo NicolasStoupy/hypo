@@ -21,7 +21,7 @@ namespace App\Http\Controllers {
         public function index()
         {
             $data = $this->repos->client()->getAll();
-            return view('Client.index', compact('data'));
+            return view('client.index', compact('data'));
         }
 
         /**
@@ -29,7 +29,7 @@ namespace App\Http\Controllers {
          */
         public function create()
         {
-            return view('Client.create');
+            return view('client.create');
         }
 
         /**
@@ -50,7 +50,7 @@ namespace App\Http\Controllers {
         public function show(string $id)
         {
             $data = $this->repos->client()->getById($id);
-            return view('Client.show', compact('data'));
+            return view('client.show', compact('data'));
         }
 
         /**
@@ -60,7 +60,7 @@ namespace App\Http\Controllers {
         {
             $data = $this->repos->client()->getById($id);
 
-            return view('Client.edit', compact('data'));
+            return view('client.edit', compact('data'));
         }
 
         /**

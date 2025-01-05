@@ -21,7 +21,7 @@ namespace App\Http\Controllers {
         {
             $data = $this->repos->facture()->getAll();
 
-            return view('Facture.index', compact('data'));
+            return view('facture.index', compact('data'));
         }
 
         /**
@@ -29,7 +29,7 @@ namespace App\Http\Controllers {
          */
         public function create()
         {
-            return view('Facture.create');
+            return view('facture.create');
         }
 
         /**

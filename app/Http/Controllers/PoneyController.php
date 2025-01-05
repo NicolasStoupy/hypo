@@ -25,7 +25,7 @@ class PoneyController extends Controller
         $search = $request->get('search');
         $this->repos->facture()->getAll();
         $data = $this->repos->poney()->paginate(5,$search);
-        return view('Poney.index', compact('data'));
+        return view('poney.index', compact('data'));
     }
 
     /**
@@ -33,7 +33,7 @@ class PoneyController extends Controller
      */
     public function create()
     {
-        return view('Poney.create');
+        return view('poney.create');
     }
 
     /**
@@ -54,7 +54,7 @@ class PoneyController extends Controller
     public function show(string $id)
     {
         $data = $this->repos->poney()->getById($id);
-        return view('Poney.edit', compact('data'));
+        return view('poney.edit', compact('data'));
     }
 
     /**
@@ -63,7 +63,7 @@ class PoneyController extends Controller
     public function edit(string $id)
     {
         $data = $this->repos->poney()->getById($id);
-        return view('Poney.edit', compact('data'));
+        return view('poney.edit', compact('data'));
     }
 
     /**
