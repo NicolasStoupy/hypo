@@ -8,6 +8,7 @@ use App\Repositories\Interfaces\IEvenement;
 use App\Repositories\Interfaces\IFacture;
 use App\Repositories\Interfaces\IPoney;
 use App\Repositories\Interfaces\IStatus;
+use Illuminate\Support\Facades\DB;
 
 class ApplicationContext implements IApplicationContext
 {
@@ -45,21 +46,4 @@ class ApplicationContext implements IApplicationContext
     {
         return $this->statusRepository;
     }
-    public function beginTransaction(): void
-    {
-        DB::beginTransaction();
-    }
-
-    public function commit(): void
-    {
-        DB::commit();
-    }
-
-    public function rollback(): void
-    {
-        DB::rollBack();
-    }
-
-
-
 }

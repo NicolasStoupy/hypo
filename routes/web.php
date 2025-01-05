@@ -7,6 +7,7 @@ use App\Http\Controllers\EvenementController;
 use App\Http\Controllers\FactureController;
 use App\Http\Controllers\GestionController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PoneyController;
 use App\Http\Controllers\PoneyControllerCrud;
 use App\Http\Controllers\StatusController;
@@ -33,10 +34,12 @@ Route::middleware([App\Http\Middleware\Auth::class, 'auth'])->group(function () 
     Route::resource('/status', StatusController::class);
     Route::resource('/gestion',GestionController::class);
 
-    // Routes pour les graphiques
+    // Routes pour les graphiques json
     Route::get('/chart/event', [ChartController::class, 'getEventChart']);
     Route::get('/chart/poney', [ChartController::class, 'getPoneyChart']);
 
+    // Routes pour pdf
+    Route::get('/pdf/facture',[PdfController::class,'facture']);
     // Routes spécifiques
     Route::post('/selectPoney', [GestionController::class, 'selectPoney'])->name('selectPoney');
     Route::post('/updatePoney', [GestionController::class, 'updatePoney'])->name('updatePoney');
