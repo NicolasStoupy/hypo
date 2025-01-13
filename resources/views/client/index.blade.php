@@ -24,11 +24,16 @@
                     <td>{{ $client->user->name }}</td>
                     <td>
                         <a href="{{ route('client.edit', $client->id) }}" class="btn btn-sm btn-warning">Modifier</a>
-                        <form action="{{ route('client.destroy', $client->id) }}" method="POST" style="display: inline-block;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr ?')">Supprimer</button>
-                        </form>
+
+                        @if($client->hasDeletable())
+                            <form action="{{ route('client.destroy', $client->id) }}" method="POST" style="display: inline-block;">
+                                @csrf
+                                @method('DELETE')
+
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr ?')">Supprimer</button>
+                            </form>
+                        @endif
+
                     </td>
                 </tr>
             @endforeach

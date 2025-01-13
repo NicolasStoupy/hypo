@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Http\Requests\EvenementPoneyRequest;
 use App\Http\Requests\EvenementRequest;
 use App\Models\Evenement;
+use App\Models\EvenementType;
 use App\Repositories\Interfaces\IEvenement;
 use App\Repositories\BaseRepository;
 use Carbon\Carbon;
@@ -87,5 +88,10 @@ class EvenementRepository extends BaseRepository implements IEvenement
     public function getEvenementsByYear($year)
     {
         return Evenement::whereYear('date_debut', $year)->get();
+    }
+
+    function getEvenementTypes()
+    {
+       return EvenementType::all();
     }
 }

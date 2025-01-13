@@ -32,7 +32,7 @@ return new class extends Migration
                 ROUND(SUM(prix), 2) AS revenu,
                  count(*) as totalevenement
             FROM evenements
-            JOIN main.clients c ON evenements.client_id = c.id
+            JOIN clients c ON evenements.client_id = c.id
             GROUP BY year, month, c.id;
         ");
     }

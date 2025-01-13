@@ -43,53 +43,33 @@
     @enderror
 </div>
 
-<div class="mb-3">
-    <label for="facture_id" class="form-label">Facture:</label>
-    <select id="facture_id" name="facture_id" class="form-control">
-        <option value="">Sélectionnez une facture</option>
-        @foreach($factures as $facture)
-            <option
-                value="{{ $facture->id }}" {{ old('facture_id', $data->facture_id ?? '') == $facture->id ? 'selected' : '' }}>
-                {{ $facture->id }}
-            </option>
-        @endforeach
-    </select>
-    @error('facture_id')
-    <div class="alert alert-danger mt-2">{{ $message }}</div>
-    @enderror
-</div>
+<x-select_input
+    name="facture_id"
+    label="Facture"
+    :options="$factures->pluck('id', 'id')->toArray()"
+    :selected="$data->facture_id ?? null"
+    placeholder="Sélectionnez une facture"
+    :autopost="false"
+/>
+<x-select_input
+    name="client_id"
+    label="Client:"
+    :options="$clients->pluck('nom','id')->toArray()"
+    :selected="$data->client_id ?? null"
+    placeholder="Sélectionnez un client"
+    :autopost="false"
+/>
 
-<div class="mb-3">
-    <label for="client_id" class="form-label">Client:</label>
-    <select id="client_id" name="client_id" class="form-control" required>
-        <option value="">Sélectionnez un client</option>
-        @foreach($clients as $client)
-            <option
-                value="{{ $client->id }}" {{ old('client_id', $data->client_id ?? '') == $client->id ? 'selected' : '' }}>
-                {{ $client->nom ?? $client->id }}
-            </option>
-        @endforeach
-    </select>
-    @error('client_id')
-    <div class="alert alert-danger mt-2">{{ $message }}</div>
-    @enderror
-</div>
-
-<div class="mb-3">
-    <label for="status_id" class="form-label">Status:</label>
-    <select id="status_id" name="status_id" class="form-control" required="">
-        <option value="">Sélectionnez un status</option>
-        @foreach($status as $statu)
-            {{dump($statu->id)}}
-            <option value="{{ $statu->id }}"
-                {{ old('status_id', $data->status_id ?? '') == $statu->id ? 'selected' : '' }}>
-                {{ $statu->description }}
-            </option>
-        @endforeach
-    </select>
+<x-select_input name="status_id" label="Status" :options="$status->pluck('description','id')->toArray()"
+                :selected="$data->status_id ??''"
+                placeholder="Sélectionnez un status"
+                :autopost="false"
+/>
+<x-select_input name="evenement_type_id" label="Evenement Type"
+                :options="$evenement_types->pluck('nom','id')->toArray()"
+                :selected="$data->evenement_type_id ?? ''"
+                placeholder="Sélectionnez un type d'évenement"
+                :autopost="false"
+/>
 
 
-    @error('status_id')
-    <div class="alert alert-danger mt-2">{{ $message }}</div>
-    @enderror
-</div>

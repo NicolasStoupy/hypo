@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Client;
 use App\Models\Evenement;
 use App\Models\EvenementPoney;
+use App\Models\EvenementType;
 use App\Models\Facture;
 use App\Models\Poney;
 use App\Models\Status;
@@ -34,6 +35,13 @@ class DatabaseSeeder extends Seeder
         // Seed factures
         Facture::factory(10)->create();
 
+
+        // seed evenement_type
+        $evenement_types = ['Association','Poney Club','Stage'];
+        foreach ($evenement_types as $type) {
+                EvenementType::create(['nom' => $type]);
+            }
+
         // Seed evenements
         $userIds = User::pluck('id')->toArray();
         $factureIds = Facture::pluck('id')->toArray();
@@ -51,6 +59,7 @@ class DatabaseSeeder extends Seeder
 
         $evenements = Evenement::inRandomOrder()->take(10)->get();
         $poneys = Poney::inRandomOrder()->take(10)->get();
+
 
 
 // Créer les 10 enregistrements de manière unique
@@ -71,7 +80,7 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-// Ensuite, vous pouvez insérer les enregistrements dans la table
+
         EvenementPoney::insert($evenementsPoneys->toArray());
     }
 }

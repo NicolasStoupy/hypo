@@ -20,5 +20,7 @@ namespace App\Repositories\Interfaces {
 
         function addPoney(EvenementPoneyRequest $evenementPoneyRequest,$poneyToReplace = null);
 
+        function getEvenementTypes();
+
     }
 }

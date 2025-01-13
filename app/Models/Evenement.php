@@ -22,7 +22,7 @@ class Evenement extends Model
         'created_by',
         'nom',
         'date_evenement',
-        'status_id'
+        'status_id','evenement_type_id'
     ];
 
     public function scopeSearch($query, $term)
@@ -106,6 +106,11 @@ class Evenement extends Model
         $available_poneys = Poney::whereNotIn('id', $poney_event)->get();
 
         return $available_poneys;
+    }
+
+    public function hasDeletable(){
+
+        return $this->facture_id === null;
     }
 
 

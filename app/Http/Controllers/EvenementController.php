@@ -22,7 +22,8 @@ class EvenementController extends Controller
     {
         $search = $request->get('search');
 
-        $data = $this->repos->evenement()->paginate(5,$search);
+        $data = $this->repos->evenement()->paginate(5, $search);
+
         return view('evenement.index', compact('data'));
     }
 
@@ -33,11 +34,11 @@ class EvenementController extends Controller
     {
         $factures = $this->repos->facture()->getAll();
         $clients = $this->repos->client()->getAll();
-        $status =$this->repos->status()->getAll();
+        $status = $this->repos->status()->getAll();
+        $evenement_types = $this->repos->evenement()->getEvenementTypes();
 
 
-
-        return view('evenement.create', compact('factures', 'clients','status'));
+        return view('evenement.create', compact('factures', 'clients', 'status', 'evenement_types'));
     }
 
     /**
@@ -58,9 +59,9 @@ class EvenementController extends Controller
         $factures = $this->repos->facture()->getAll();
         $clients = $this->repos->client()->getAll();
         $data = $this->repos->evenement()->getById($id);
-        $status =$this->repos->status()->getAll();
-
-        return view('evenement.edit', compact('data', 'factures', 'clients','status'));
+        $status = $this->repos->status()->getAll();
+        $evenement_types = $this->repos->evenement()->getEvenementTypes();
+        return view('evenement.edit', compact('data', 'factures', 'clients', 'status', 'evenement_types'));
     }
 
     /**

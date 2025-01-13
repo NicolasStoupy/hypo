@@ -59,7 +59,8 @@ class EvenementRequest extends FormRequest
             'created_by' => 'required|exists:users,id', // L'utilisateur créant l'événement doit exister
             'nom' => 'required|string',
             'date_evenement' => 'required|date',
-            'status_id'=>'required|string'
+            'status_id'=>'required|string',
+            'evenement_type_id'=>'required|integer|exists:evenement_types,id'
         ];
     }
 

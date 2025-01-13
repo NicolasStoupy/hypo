@@ -45,18 +45,21 @@
                     <td>
                         <a href="{{ route('evenement.show', $evenement->id) }}" class="btn btn-warning btn-sm">Modifier</a>
 
-                        <form action="{{ route('evenement.destroy', $evenement->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')">Supprimer</button>
-                        </form>
+                        @if($evenement->hasDeletable())
+                            <form action="{{ route('evenement.destroy', $evenement->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')">Supprimer</button>
+                            </form>
+                        @endif
+
                     </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
         <div class="d-flex justify-content-center mt-4">
-            {{ $data->links('pagination::bootstrap-5') }}
+            {{ $data->links() }}
         </div>
 
     </div>

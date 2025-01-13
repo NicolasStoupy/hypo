@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,14 +19,27 @@ class Client extends Model
         'created_by',
     ];
 
-    public function user():BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
 
     }
 
-    public function evenements():HasMany
+    public function evenements(): HasMany
     {
         return $this->hasMany(Evenement::class, 'client_id');
+    }
+
+    public function factures()
+    {
+
+        return $this->hasMany(Facture::class, 'client_id');
+
+    }
+
+    public function hasDeletable()
+    {
+
+        return $this->factures->count() === 0 && $this->evenements->count() === 0;
     }
 }

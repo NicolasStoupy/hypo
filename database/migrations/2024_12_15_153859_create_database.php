@@ -23,6 +23,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('status_id')->constrained('status')->cascadeOnDelete();
+            $table->foreignId('client_id')->nullable()->constrained('clients');
         });
 
         Schema::create('clients', function (Blueprint $table) {
@@ -32,7 +33,13 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignId('created_by')->constrained('users');
         });
+        Schema::create('evenement_types', function (Blueprint $table) {
+            $table->id();
+            $table->string('nom', 10)->unique();
+            $table->timestamps();
 
+
+        });
         Schema::create('evenements', function (Blueprint $table) {
             $table->id();
             $table->decimal('prix', 8, 2);
@@ -46,6 +53,7 @@ return new class extends Migration
             $table->foreignId('client_id')->constrained('clients');
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('status_id')->constrained('status')->cascadeOnDelete();
+            $table->foreignId('evenement_type_id')->constrained('evenement_types');
         });
 
         Schema::create('evenement_poneys', function (Blueprint $table) {
@@ -62,6 +70,8 @@ return new class extends Migration
             $table->string('description');
             $table->timestamps();
         });
+
+
     }
 
     /**
@@ -74,5 +84,7 @@ return new class extends Migration
         Schema::dropIfExists('clients');
         Schema::dropIfExists('factures');
         Schema::dropIfExists('poneys');
+        Schema::dropIfExists('status');
+        Schema::dropIfExists('evenement_types');
     }
 };

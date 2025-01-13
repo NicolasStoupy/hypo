@@ -29,7 +29,8 @@ namespace App\Http\Controllers {
             $evenement_id = $request->get('evenement_id');
             $evenements = $this->repos->evenement()->getEvenementsByDate($date);
             $poneys = $this->repos->poney()->getAll();
-            return view('gestion.index', compact('evenements', 'date', 'poneys','evenement_id'));
+            $evenement_types = $this->repos->evenement()->getEvenementTypes();
+            return view('gestion.index', compact('evenements', 'date', 'poneys','evenement_id','evenement_types'));
         }
 
         /**

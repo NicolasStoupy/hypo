@@ -20,7 +20,7 @@ class PdfController extends Controller
         $pdf = App::make('dompdf.wrapper');
         $facture= $this->repos->facture()->getById(1);
 
-        return view('templates_factures.t_facture_1', compact('facture'));
+       // return view('templates_factures.t_facture_1', compact('facture'));
 
         $html = view('templates_factures.t_facture_1', compact('facture'))->render();
 

@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Client;
 use App\Models\Evenement;
 use App\Models\EvenementPoney;
+use App\Models\EvenementType;
 use App\Models\Facture;
 use App\Models\Status;
 use App\Models\User;
@@ -22,7 +23,7 @@ class EvenementFactory extends Factory
     public function definition(): array
     {
         $status = new  StatusFactory();
-
+        $evenements=  EvenementType::all()->pluck('id');
         $dateDebut = $this->faker->dateTimeBetween('-365 days', '+50 day'); // Génère une date aléatoire dans le passé (entre 1 et 10 jours avant aujourd'hui)
         $dateFin = (clone $dateDebut)->modify('+1 hour'); // Ajoute  1 heure à `date_debut`
         $date_evenement = Carbon::parse($dateDebut)->format('Y-m-d');
@@ -37,7 +38,8 @@ class EvenementFactory extends Factory
             'client_id' => $this->faker->numberBetween(1, 10),  // ID de client existant
             'created_at' => $this->faker->dateTime(),
             'updated_at' => $this->faker->dateTime(),
-            'status_id' => $this->faker->randomElement( $status->getStatus())
+            'status_id' => $this->faker->randomElement( $status->getStatus()),
+            'evenement_type_id'=> $this->faker->randomElement($evenements)
         ];
     }
 }
