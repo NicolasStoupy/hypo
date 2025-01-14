@@ -88,5 +88,11 @@ namespace App\Http\Controllers {
                 ->route('client.index')
                 ->with('success', 'Le client a été supprimé avec succès.');
         }
+
+        public function search_client($term){
+
+            $data = $this->repos->client()->search($term);
+            return json_encode($data);
+        }
     }
 }

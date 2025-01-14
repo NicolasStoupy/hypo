@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AssociationRequest;
 use App\Http\Requests\EvenementRequest;
 use App\Repositories\Interfaces\IApplicationContext;
 use Illuminate\Http\Request;
@@ -50,6 +51,8 @@ class EvenementController extends Controller
         $this->repos->evenement()->create($evenementRequest);
         return redirect()->route('evenement.index');
     }
+
+
 
     /**
      * Display the specified resource.

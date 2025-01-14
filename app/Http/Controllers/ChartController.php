@@ -12,13 +12,14 @@ namespace App\Http\Controllers {
 
         }
 
-        public function getEventChart(): JsonResponse
+
+        public function get_event_chart(): JsonResponse
         {
             return response()->json($this->repos->evenement()->getKpi());
 
         }
 
-        public function getPoneyChart(): JsonResponse
+        public function get_poney_chart(): JsonResponse
         {
             return response()->json($this->repos->poney()->getKpi());
         }

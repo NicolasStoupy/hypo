@@ -6,6 +6,18 @@
     <div class="alert alert-danger mt-2">{{ $message }}</div>
     @enderror
 </div>
+<div class="flex-fill">
+    <x-select_input
+        name="client_id"
+        label="Client"
+        :options="$clients->pluck('nom', 'id')->toArray()"
+        :selected="$data->client_id ?? null"
+        placeholder="Sélectionnez un client"
+        :autopost="false"
+    />
+    <a target="_blank" href="/client/create">Nouveau client</a>
+</div>
+
 <div class="mb-3">
     <label for="prix" class="form-label">Prix:</label>
     <input type="number" step="0.01" id="prix" name="prix" value="{{ old('prix', $data->prix ?? '0') }}"
@@ -27,7 +39,10 @@
 <div class="mb-3">
     <label for="date_debut" class="form-label">Date de début:</label>
     <input type="datetime-local" id="date_debut" name="date_debut"
-           value="{{ old('date_debut', $data->date_debut ?? '') }}" class="form-control" required>
+           value="{{ old('date_debut', $data->date_fin ?? '') }}"
+           class="form-control" required
+           min="{{ Carbon\Carbon::parse($selected_date)->format('Y-m-d') }}T00:00"
+           max="{{ Carbon\Carbon::parse($selected_date)->format('Y-m-d') }}T23:59">
     @error('date_debut')
     <div class="alert alert-danger mt-2">{{ $message }}</div>
     @enderror
@@ -37,41 +52,14 @@
     <label for="date_fin" class="form-label">Date de fin:</label>
     <input type="datetime-local" id="date_fin" name="date_fin"
            value="{{ old('date_fin', $data->date_fin ?? '') }}"
-           class="form-control" required>
+           class="form-control" required
+           min="{{ Carbon\Carbon::parse($selected_date)->format('Y-m-d') }}T00:00"
+           max="{{ Carbon\Carbon::parse($selected_date)->format('Y-m-d') }}T23:59">
     @error('date_fin')
     <div class="alert alert-danger mt-2">{{ $message }}</div>
     @enderror
 </div>
 
-    <x-select_input
-        name="facture_id"
-        label="Facture"
-        :options="$factures->pluck('id', 'id')->toArray()"
-        :selected="$data->facture_id ?? null"
-        placeholder="Sélectionnez une facture"
-        :autopost="false"
-    />
-    <x-select_input
-        name="client_id"
-        label="Client:"
-        :options="$clients->pluck('nom','id')->toArray()"
-        :selected="$data->client_id ?? null"
-        placeholder="Sélectionnez un client"
-        :autopost="false"
-    />
 
-    <x-select_input name="status_id" label="Status" :options="$status->pluck('description','id')->toArray()"
-                    :selected="$data->status_id ??''"
-                    placeholder="Sélectionnez un status"
-                    :autopost="false"
-    />
-    <x-select_input name="evenement_type_id" label="Evenement Type"
-                    :options="$evenement_types->pluck('nom','id')->toArray()"
-                    :selected="$data->evenement_type_id ?? ''"
-                    placeholder="Sélectionnez un type d'évenement"
-                    :autopost="false"
-    />
-
-
-
+<input type="hidden" name="status_id" value="PR">
 

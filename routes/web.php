@@ -28,19 +28,21 @@ Route::middleware([App\Http\Middleware\Auth::class, 'auth'])->group(function () 
     Route::resource('/client', ClientController::class);
     Route::resource('/evenement', EvenementController::class);
 
-    Route::get('/facture/gestion',[FactureController::class,'gestion'])->name('facturier');
+    Route::get('/facture/gestion', [FactureController::class, 'gestion'])->name('facturier');
     Route::resource('/facture', FactureController::class);
     Route::resource('/gestion', GestionController::class);
     Route::resource('/status', StatusController::class);
-    Route::resource('/gestion',GestionController::class);
+    Route::post('/gestion/type', [GestionController::class, 'evenement_type_choiced'])->name('evenement_choiced');
+    Route::post('/gestion/newevent', [GestionController::class, 'new_event'])->name('new_event');
 
     // Routes pour les graphiques json
-    Route::get('/chart/event', [ChartController::class, 'getEventChart']);
-    Route::get('/chart/poney', [ChartController::class, 'getPoneyChart']);
+    Route::get('/chart/event', [ChartController::class, 'get_event_chart']);
+    Route::get('/chart/poney', [ChartController::class, 'get_poney_chart']);
+
 
     // Routes pour pdf
-    Route::get('/pdf/facture',[PdfController::class,'facture']);
+    Route::get('/pdf/facture', [PdfController::class, 'facture']);
     // Routes spécifiques
-    Route::post('/selectPoney', [GestionController::class, 'selectPoney'])->name('selectPoney');
-    Route::post('/updatePoney', [GestionController::class, 'updatePoney'])->name('updatePoney');
+    Route::post('/select_poney', [GestionController::class, 'selectPoney'])->name('select_poney');
+    Route::post('/update_poney', [GestionController::class, 'updatePoney'])->name('update_poney');
 });

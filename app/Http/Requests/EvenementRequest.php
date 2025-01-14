@@ -28,7 +28,9 @@ class EvenementRequest extends FormRequest
      */
     public function prepareForValidation()
     {
+
         CreatedBy::Run($this);
+
         if ($this->has('date_debut')) {
             $date_formated = Carbon::parse($this->date_debut)->format('Y-m-d');
             $this->merge(['date_evenement' => $date_formated]);
@@ -38,8 +40,6 @@ class EvenementRequest extends FormRequest
             $this->merge(['status_id' => 'PR'] );
 
         }
-
-
     }
 
     /**

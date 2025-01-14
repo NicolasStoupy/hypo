@@ -43,4 +43,5 @@ class BaseRepository implements IRepository
         return $query->paginate($perPage);
     }
 
+
 }
