@@ -21,6 +21,7 @@
                         <!-- Bouton pour aller au jour précédent -->
                         <form action="{{ route('gestion.index') }}" method="GET" class="d-inline">
                             <input type="hidden" name="date" value="{{ Carbon::parse($selected_date)->subDay()->format('Y-m-d') }}">
+                            <input type="hidden" name="evenement_type_id" value="{{$selected_event_type_id}}">
                             <button type="submit" class="btn btn-outline-primary rounded-0">Jour Précédent</button>
                         </form>
 
@@ -28,12 +29,12 @@
                         <form action="{{ route('gestion.index') }}" method="GET" class="d-inline">
                             <input type="date" name="date" value="{{ Carbon::parse($selected_date)->format('Y-m-d') }}"
                                    class="form-control form-control-sm btn btn-outline-primary rounded-0 border"
-                                   onchange="this.form.submit()"/>
+                                   onchange="this.form.submit()"/><input type="hidden" name="evenement_type_id" value="{{$selected_event_type_id}}">
                         </form>
                         <!-- Bouton pour aller au jour suivant -->
                         <form action="{{ route('gestion.index') }}" method="GET" class="d-inline">
                             <input type="hidden" name="date" value="{{ Carbon::parse($selected_date)->addDay()->format('Y-m-d') }}">
-                            <button type="submit" class="btn btn-outline-primary rounded-0">Jour Suivant</button>
+                            <button type="submit" class="btn btn-outline-primary rounded-0">Jour Suivant</button><input type="hidden" name="evenement_type_id" value="{{$selected_event_type_id}}">
                         </form>
                     </div>
                     <!-- Liste des événements -->
