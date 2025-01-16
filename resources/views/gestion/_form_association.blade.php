@@ -6,7 +6,7 @@
     <div class="alert alert-danger mt-2">{{ $message }}</div>
     @enderror
 </div>
-<div class="flex-fill">
+<div class="col-12 d-flex">
     <x-select_input
         name="client_id"
         label="Client"
@@ -17,7 +17,6 @@
     />
     <a target="_blank" href="/client/create">Nouveau client</a>
 </div>
-
 <div class="mb-3">
     <label for="prix" class="form-label">Prix:</label>
     <input type="number" step="0.01" id="prix" name="prix" value="{{ old('prix', $data->prix ?? '0') }}"
@@ -26,7 +25,6 @@
     <div class="alert alert-danger mt-2">{{ $message }}</div>
     @enderror
 </div>
-
 <div class="mb-3">
     <label for="nombre_participant" class="form-label">Nombre de participants:</label>
     <input type="number" id="nombre_participant" name="nombre_participant"
@@ -35,7 +33,6 @@
     <div class="alert alert-danger mt-2">{{ $message }}</div>
     @enderror
 </div>
-
 <div class="mb-3">
     <label for="date_debut" class="form-label">Date de début:</label>
     <input type="datetime-local" id="date_debut" name="date_debut"
@@ -47,7 +44,6 @@
     <div class="alert alert-danger mt-2">{{ $message }}</div>
     @enderror
 </div>
-
 <div class="mb-3">
     <label for="date_fin" class="form-label">Date de fin:</label>
     <input type="datetime-local" id="date_fin" name="date_fin"
@@ -59,7 +55,5 @@
     <div class="alert alert-danger mt-2">{{ $message }}</div>
     @enderror
 </div>
-
-
 <input type="hidden" name="status_id" value="PR">
 

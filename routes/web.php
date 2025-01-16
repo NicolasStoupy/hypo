@@ -34,6 +34,7 @@ Route::middleware([App\Http\Middleware\Auth::class, 'auth'])->group(function () 
     Route::resource('/status', StatusController::class);
     Route::post('/gestion/type', [GestionController::class, 'evenement_type_choiced'])->name('evenement_choiced');
     Route::post('/gestion/newevent', [GestionController::class, 'new_event'])->name('new_event');
+    Route::post('/gestion/add_cavaliers', [GestionController::class, 'add_cavaliers'])->name('gestion.add_cavaliers');
 
     // Routes pour les graphiques json
     Route::get('/chart/event', [ChartController::class, 'get_event_chart']);

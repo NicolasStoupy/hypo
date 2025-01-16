@@ -22,5 +22,7 @@ namespace App\Repositories\Interfaces {
 
         function getEvenementTypes();
 
+        function addCavaliers(array $cavaliers, $evenement_id);
+
     }
 }

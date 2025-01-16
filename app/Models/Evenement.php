@@ -49,6 +49,10 @@ class Evenement extends Model
     {
         return $this->belongsTo(Facture::class, 'facture_id');
     }
+    public function cavaliers()
+    {
+        return $this->hasMany(Cavalier::class,'evenement_id');
+    }
 
     public function client()
     {

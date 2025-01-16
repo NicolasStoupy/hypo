@@ -24,6 +24,7 @@ namespace App\Http\Controllers {
          */
         private function prepareViewModel(Request $request): array
         {
+
             // Déterminer la date sélectionnée ou utiliser la date actuelle par défaut
             $selected_date = $request->get('date', date('Y-m-d'));
 
@@ -62,55 +63,6 @@ namespace App\Http\Controllers {
         {
             return view('gestion.index', $this->prepareViewModel($request));
         }
-
-        /**
-         * Afficher le formulaire pour créer un événement.
-         */
-        public function create()
-        {
-            // Fonctionnalité de création d'un événement à définir
-        }
-
-        /**
-         * Enregistrer un événement créé dans le stockage.
-         */
-        public function store(Request $request)
-        {
-            // Fonctionnalité d'enregistrement d'un événement à définir
-        }
-
-        /**
-         * Afficher l'événement spécifié.
-         */
-        public function show(string $id)
-        {
-            // Fonctionnalité d'affichage d'un événement à définir
-        }
-
-        /**
-         * Afficher le formulaire pour éditer un événement spécifié.
-         */
-        public function edit(string $id)
-        {
-            // Fonctionnalité d'édition d'un événement à définir
-        }
-
-        /**
-         * Mettre à jour l'événement spécifié dans le stockage.
-         */
-        public function update(Request $request, string $id)
-        {
-            // Fonctionnalité de mise à jour d'un événement à définir
-        }
-
-        /**
-         * Supprimer l'événement spécifié du stockage.
-         */
-        public function destroy(string $id)
-        {
-            // Fonctionnalité de suppression d'un événement à définir
-        }
-
         /**
          * Mettre à jour l'affectation d'un poney à un événement.
          */
@@ -131,6 +83,7 @@ namespace App\Http\Controllers {
                 ]);
             }
 
+            session('success')[]=['success'=>'success'];
             // Sinon, effectuer une redirection simple vers la vue de gestion
             return redirect()->route('gestion.index');
         }
@@ -144,7 +97,19 @@ namespace App\Http\Controllers {
             $this->repos->evenement()->create($request);
 
             // Rediriger vers la vue de gestion avec la date de l'événement
-            return redirect()->route('gestion.index', ['date' => $request->get('date_evenement')]);
+            return redirect()->route('gestion.index', ['date' => $request->get('date_evenement')])->with('success', 'Créé avec success');
+        }
+
+        public function  add_cavaliers(FormRequest $request)
+        {
+
+            $cavaliers = $request->get('nom');
+            $evenement_id= $request->get('evenement_id');
+
+            $this->repos->evenement()->addCavaliers($cavaliers,$evenement_id);
+
+
+            return redirect()->route('gestion.index', ['date' => $request->get('date'),'evenement_id'=>$evenement_id]);
         }
     }
 }

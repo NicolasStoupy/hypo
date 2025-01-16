@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Http\Requests\EvenementPoneyRequest;
 use App\Http\Requests\EvenementRequest;
+use App\Models\Cavalier;
 use App\Models\Evenement;
 use App\Models\EvenementType;
 use App\Repositories\Interfaces\IEvenement;
@@ -93,5 +94,21 @@ class EvenementRepository extends BaseRepository implements IEvenement
     function getEvenementTypes()
     {
        return EvenementType::all();
+    }
+
+
+    function addCavaliers($cavaliers, $evenement_id)
+    {
+        foreach ($cavaliers as $index => $cavalier) {
+
+
+            $new_cavalier = new Cavalier();
+            $new_cavalier->nom = $cavalier;
+            $new_cavalier->evenement_id = $evenement_id;
+           
+            $new_cavalier->save();
+
+
+        }
     }
 }

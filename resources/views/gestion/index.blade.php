@@ -20,7 +20,8 @@
                     <div class="btn-group mb-4" role="group" aria-label="Navigation">
                         <!-- Bouton pour aller au jour précédent -->
                         <form action="{{ route('gestion.index') }}" method="GET" class="d-inline">
-                            <input type="hidden" name="date" value="{{ Carbon::parse($selected_date)->subDay()->format('Y-m-d') }}">
+                            <input type="hidden" name="date"
+                                   value="{{ Carbon::parse($selected_date)->subDay()->format('Y-m-d') }}">
                             <input type="hidden" name="evenement_type_id" value="{{$selected_event_type_id}}">
                             <button type="submit" class="btn btn-outline-primary rounded-0">Jour Précédent</button>
                         </form>
@@ -29,72 +30,65 @@
                         <form action="{{ route('gestion.index') }}" method="GET" class="d-inline">
                             <input type="date" name="date" value="{{ Carbon::parse($selected_date)->format('Y-m-d') }}"
                                    class="form-control form-control-sm btn btn-outline-primary rounded-0 border"
-                                   onchange="this.form.submit()"/><input type="hidden" name="evenement_type_id" value="{{$selected_event_type_id}}">
+                                   onchange="this.form.submit()"/><input type="hidden" name="evenement_type_id"
+                                                                         value="{{$selected_event_type_id}}">
                         </form>
                         <!-- Bouton pour aller au jour suivant -->
                         <form action="{{ route('gestion.index') }}" method="GET" class="d-inline">
-                            <input type="hidden" name="date" value="{{ Carbon::parse($selected_date)->addDay()->format('Y-m-d') }}">
-                            <button type="submit" class="btn btn-outline-primary rounded-0">Jour Suivant</button><input type="hidden" name="evenement_type_id" value="{{$selected_event_type_id}}">
+                            <input type="hidden" name="date"
+                                   value="{{ Carbon::parse($selected_date)->addDay()->format('Y-m-d') }}">
+                            <button type="submit" class="btn btn-outline-primary rounded-0">Jour Suivant</button>
+                            <input type="hidden" name="evenement_type_id" value="{{$selected_event_type_id}}">
                         </form>
                     </div>
                     <!-- Liste des événements -->
-                    <div class="list-group list-group-flush">
+                    <div class="list-group">
                         @foreach($events as $evenement)
                             <!-- Événement cliquable -->
                             <div onclick="toggleAssignment('assignmentContent_{{$evenement->id}}')"
-                                 class="clickable list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                 class="clickable list-group-item list-group-item-action d-flex justify-content-between">
                                 <!-- Nom de l'événement -->
                                 <span>{{ $evenement->nom . ' | ' . $evenement->client->nom }}</span>
 
                                 <!-- Badges avec des informations sur l'événement -->
-                                <div class="d-flex align-items-center justify-content-between" style="min-width: 250px;">
-                                <span class="badge bg-info flex-grow-1 text-center" style="width: 80px;">
+
+                                <div class="d-flex"    >
+                                <span class="badge flex-grow-1 t text-black mr-3">
                                     {{ $evenement->getDuration() }}
                                 </span>
-                                    <span class="badge bg-secondary flex-grow-1 text-center" style="width: 80px;">
-                                 {{ $evenement->getTimeRange() }}
-                                </span>
-                                    <span class="badge bg-success flex-grow-1 text-center" style="width: 80px;">
-                                    {{ $evenement->status->description }}
-                                </span>
-                                    <span class="badge flex-grow-1 text-center text-black" style="width: 80px;">
+                                     <span class="badge flex-grow-1  text-black">
                                     {{ $evenement->evenement_type->nom }}
                                 </span>
+
+
+                                    <a href="">edit</a>
                                 </div>
                             </div>
 
                             <!-- Contenu détaillé de l'événement (affiché/masqué) -->
-                            <div class="container-fluid">
-                                <div id="assignmentContent_{{$evenement->id}}" class="toggle-content m-3"
-                                     style="display:none;">
+                            <div class="container-fluid d-flex justify-content-between row">
+                                <div id="assignmentContent_{{$evenement->id}}" class="toggle-content m-3" style="display:none;">
                                     <div class="card shadow-sm">
                                         <div class="card-body">
                                             <!-- Nombre de participants -->
                                             <div class="d-flex justify-content-between">
-                                                <span>{{$evenement->nombre_participant}} Personnes attendues</span>
+                                                <span>{{$evenement->nombre_participant}} Poney(s) à assigner:</span>
                                             </div>
-
                                             <div class="row my-3">
                                                 <!-- Poneys assignés -->
                                                 @foreach($evenement->poneys as $poney_evenement)
-                                                    <form action="{{ route('update_poney') }}" method="post"
-                                                          class="col-12 col-md-6 mb-3">
+                                                    <form action="{{ route('update_poney') }}" method="post" class="col-12 col-md-6 mb-3 d-flex flex-column">
                                                         @csrf
-                                                        <input type="hidden" name="previous_poney_id"
-                                                               value="{{$poney_evenement->id}}">
+                                                        <input type="hidden" name="previous_poney_id" value="{{$poney_evenement->id}}">
                                                         <input type="hidden" name="evenement_id" value="{{$evenement->id}}">
                                                         <input type="hidden" name="date" value="{{$selected_date}}">
 
                                                         <!-- Sélecteur de poneys -->
                                                         <div class="form-group">
-                                                            <select name="poney_id" class="form-select form-select-sm"
-                                                                    onchange="this.form.submit()">
-                                                                <option value="{{$poney_evenement->id}}">
-                                                                    {{$poney_evenement->nom}}
-                                                                </option>
+                                                            <select name="poney_id" class="form-select form-select-sm" onchange="this.form.submit()">
+                                                                <option value="{{$poney_evenement->id}}">{{$poney_evenement->nom}}</option>
                                                                 @foreach($evenement->get_poneys_availaible() as $poney)
-                                                                    <option value="{{ $poney->id }}"
-                                                                        {{ old('poney_id', $poney_evenement->id ?? '') == $poney->id ? 'selected' : '' }}>
+                                                                    <option value="{{ $poney->id }}" {{ old('poney_id', $poney_evenement->id ?? '') == $poney->id ? 'selected' : '' }}>
                                                                         {{ $poney->nom }}
                                                                     </option>
                                                                 @endforeach
@@ -105,16 +99,14 @@
 
                                                 <!-- Poneys disponibles pour les participants supplémentaires -->
                                                 @for($i = $evenement->qtyOfPoneysSelected(); $i < $evenement->nombre_participant; $i++)
-                                                    <form action="{{ route('update_poney') }}" method="post"
-                                                          class="col-12 col-md-6 mb-3">
+                                                    <form action="{{ route('update_poney') }}" method="post" class="col-12 col-md-6 mb-3 d-flex flex-column">
                                                         @csrf
                                                         <input type="hidden" name="evenement_id" value="{{$evenement->id}}">
                                                         <input type="hidden" name="date" value="{{$selected_date}}">
 
                                                         <!-- Sélecteur pour les poneys non assignés -->
                                                         <div class="form-group">
-                                                            <select name="poney_id" class="form-select form-select-sm"
-                                                                    onchange="this.form.submit()">
+                                                            <select name="poney_id" class="form-select form-select-sm" onchange="this.form.submit()">
                                                                 <option value="" selected>Poney {{$i+1}}</option>
                                                                 @foreach($evenement->get_poneys_availaible() as $poney)
                                                                     <option value="{{ $poney->id }}">
@@ -124,12 +116,44 @@
                                                             </select>
                                                         </div>
                                                     </form>
+                                                    </form>
                                                 @endfor
                                             </div>
+                                            <!-- Les cavaliers -->
+                                            <hr>
+                                            <div class="d-flex justify-content-between">
+                                                <span>{{$evenement->nombre_participant}} Cavalier(s) attendu(s):</span>
+                                            </div>
+                                            <form action="{{route("gestion.add_cavaliers")}}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="evenement_id" value="{{$evenement->id}}">
+                                                <input type="hidden" name="date" value="{{$selected_date}}">
+                                                <div class="mb-2">
+                                                    <div class="row">
+                                                        @foreach($evenement->cavaliers as $cavalier)
+                                                            <div class="col-6 mb-3 ">
+                                                                <input type="text" class="form-control" name="nom[]" value="{{$cavalier->nom}}" id="cavalierNom" placeholder="Nom du cavalier">
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <div class="row">
+                                                        @for($i = $evenement->cavaliers->count(); $i < $evenement->nombre_participant; $i++)
+                                                            <div class="col-6 mb-3">
+                                                                <input type="text" class="form-control" placeholder="Cavalier {{$i+1}}" name="nom[]" id="cavalierNomExtra">
+                                                            </div>
+                                                        @endfor
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="d-flex justify-center btn btn-primary btn-sm">Valider</button>
+                                            </form>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                         @endforeach
                     </div>
                 </div>
@@ -149,11 +173,11 @@
                             <input type="hidden" name="evenement_id" value="{{$last_modified_event_id}}">
                             <input type="hidden" name="date" value="{{$selected_date}}">
                             <div class="col-12">
-                                <x-select_input  name="evenement_type_id" label="Evenement Type"
+                                <x-select_input name="evenement_type_id" label="Evenement Type"
                                                 :options="$event_types->pluck('nom','id')->toArray()"
                                                 :selected="$selected_event_type_id ?? ''"
                                                 :autopost="true"
-                                                 placeholder="Sélectionnez un type d'évenement"
+                                                placeholder="Sélectionnez un type d'évenement"
                                 />
                             </div>
                         </form>
@@ -171,16 +195,11 @@
                             @endif
                             <button type="submit">Ajouter</button>
                         </form>
-
-
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
     <script>
         // Fonction pour afficher/masquer le contenu d'un événement
         function toggleAssignment(contentId) {
