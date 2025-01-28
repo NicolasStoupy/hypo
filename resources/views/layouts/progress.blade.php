@@ -57,7 +57,6 @@
         const forms = document.querySelectorAll('form');
         forms.forEach(form => {
             form.addEventListener('submit', () => {
-                saveScrollPosition(); // Sauvegarder la position avant le POST
                 overlay.style.display = 'block';
                 spinner.style.display = 'block';
             });

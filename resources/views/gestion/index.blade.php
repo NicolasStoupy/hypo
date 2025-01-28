@@ -3,9 +3,9 @@
 
 @section('content')
     @vite('resources/js/app_function.js') <!-- Chargement des fonctions JavaScript spécifiques -->
-    <script src="gestion.js"></script>
+    <script src="/gestion.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="css/gestionjournalier.css" rel="stylesheet">
+    <link href="/css/gestionjournalier.css" rel="stylesheet">
 
     <!-- Identifiant de l'événement à afficher par défaut -->
     <input type="hidden" name="evenement_id_show" value="{{$last_modified_event_id}}">
@@ -174,8 +174,8 @@
                     <div class="row">
                         <form action="{{ route('gestion.event_type') }}" method="post">
                             @csrf
-                            <input type="hidden" name="evenement_id" value="{{$last_modified_event_id}}">
-                            <input type="hidden" name="date" value="{{$selected_date}}">
+                            <input type="hidden" name="evenement_id" value="{{ old('last_modified_event_id',$last_modified_event_id)}}">
+                            <input type="hidden" name="date" value="{{ old('selected_date', $selected_date) }}">
                             <div class="col-12">
                                 <x-select_input name="evenement_type_id" label="Evenement Type"
                                                 :options="$event_types->pluck('nom','id')->toArray()"
@@ -187,7 +187,7 @@
                             <div class="mb-3">
                                 <label for="nombre_participant" class="form-label">Nombre de participants:</label>
                                 <input type="number" id="nombre_participant" name="nombre_participant"
-                                       value="{{$nombre_participant}}"
+                                       value="{{ old('nombre_participant', $nombre_participant) }}"
                                        class="form-control" required>
                                 @error('nombre_participant')
                                 <div class="alert alert-danger mt-2">{{ $message }}</div>
@@ -197,12 +197,13 @@
                             <button type="submit" class="btn btn-outline-primary rounded-0 mt-1 form-control">Valider
                             </button>
                         </form>
-                        @if($event_enable)
+                        @if($event_enable || $errors->any())
 
                             <form action="{{route('new_event')}}" method="post">
                                 @csrf
-                                <input type="hidden" name="nombre_participant" value="{{$nombre_participant}}">
-                                <input type="hidden" name="evenement_type_id" value="{{$selected_event_type_id}}">
+                                <input type="hidden" name="nombre_participant" value="{{ old('nombre_participant', $nombre_participant) }}">
+                                <input type="hidden" name="evenement_type_id" value="{{ old('evenement_type_id', $selected_event_type_id) }}">
+
                                 @include('gestion._form_association')
                                 @if($selected_event_type_id == 2)
                                     @include('gestion._form_cavalier')

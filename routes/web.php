@@ -30,8 +30,9 @@ Route::middleware([App\Http\Middleware\Auth::class, 'auth'])->group(function () 
 
     Route::get('/facture/gestion', [FactureController::class, 'gestion'])->name('facturier');
     Route::resource('/facture', FactureController::class);
-    Route::resource('/gestion', GestionController::class);
+
     Route::resource('/status', StatusController::class);
+    Route::get('/gestion/index', [GestionController::class, 'index'])->name('gestion.index');
     Route::post('/gestion/type', [GestionController::class, 'evenement_type_choiced'])->name('evenement_choiced');
     Route::post('/gestion/newevent', [GestionController::class, 'new_event'])->name('new_event');
     Route::post('/gestion/add_cavaliers', [GestionController::class, 'add_cavaliers'])->name('gestion.add_cavaliers');
