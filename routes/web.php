@@ -35,7 +35,9 @@ Route::middleware([App\Http\Middleware\Auth::class, 'auth'])->group(function () 
     Route::post('/gestion/type', [GestionController::class, 'evenement_type_choiced'])->name('evenement_choiced');
     Route::post('/gestion/newevent', [GestionController::class, 'new_event'])->name('new_event');
     Route::post('/gestion/add_cavaliers', [GestionController::class, 'add_cavaliers'])->name('gestion.add_cavaliers');
-
+    Route::post('/gestion/update_cavaliers', [GestionController::class, 'update_cavaliers'])->name('gestion.update_cavaliers');
+    Route::post('/gestion/delete_evenement',[GestionController::class,'delete_evenement'])->name('gestion.delete_evenement');
+    Route::post('/gestion/index',[GestionController::class,'index'])->name('gestion.event_type');
     // Routes pour les graphiques json
     Route::get('/chart/event', [ChartController::class, 'get_event_chart']);
     Route::get('/chart/poney', [ChartController::class, 'get_poney_chart']);

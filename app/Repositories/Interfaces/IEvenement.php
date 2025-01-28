@@ -5,11 +5,12 @@ namespace App\Repositories\Interfaces {
     use App\Http\Requests\ClientRequest;
     use App\Http\Requests\EvenementPoneyRequest;
     use App\Http\Requests\EvenementRequest;
+    use App\Models\Evenement;
 
     interface IEvenement extends IRepository
     {
 
-        public function create(EvenementRequest $EvenementRequest);
+        public function create(EvenementRequest $EvenementRequest):Evenement;
 
         function update(EvenementRequest $EvenementRequest, $id);
 
@@ -23,6 +24,10 @@ namespace App\Repositories\Interfaces {
         function getEvenementTypes();
 
         function addCavaliers(array $cavaliers, $evenement_id);
+
+
+
+        public function updateCavaliers(array $cavaliers);
 
     }
 }

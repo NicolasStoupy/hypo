@@ -49,7 +49,7 @@ return new class extends Migration
             $table->timestamp('date_debut');
             $table->timestamp('date_fin');
             $table->timestamps();
-            $table->foreignId('facture_id')->nullable()->constrained('factures');
+            $table->foreignId('facture_id')->nullable()->constrained('factures')->cascadeOnDelete();
             $table->foreignId('client_id')->constrained('clients');
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('status_id')->constrained('status')->cascadeOnDelete();

@@ -3,18 +3,20 @@
 
 @section('content')
     @vite('resources/js/app_function.js') <!-- Chargement des fonctions JavaScript spécifiques -->
+    <script src="gestion.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="css/gestionjournalier.css" rel="stylesheet">
 
     <!-- Identifiant de l'événement à afficher par défaut -->
     <input type="hidden" name="evenement_id_show" value="{{$last_modified_event_id}}">
-
     <div class="row">
+        <!-- Left Content-->
         <div class="col-6 col-md-6 ms-12">
-            <div class="card shadow-sm h-100">
+            <div class="card hovmagic shadow-sm h-100">
                 <!-- En-tête de la carte -->
                 <div class="card-header bg-primary text-white">
                     <h5 class="mb-0">Rendez-vous prévus :</h5>
                 </div>
-
                 <div class="card-body">
                     <!-- Navigation des jours -->
                     <div class="btn-group mb-4" role="group" aria-label="Navigation">
@@ -52,22 +54,38 @@
 
                                 <!-- Badges avec des informations sur l'événement -->
 
-                                <div class="d-flex"    >
+                                <div class="d-flex">
                                 <span class="badge flex-grow-1 t text-black mr-3">
                                     {{ $evenement->getDuration() }}
                                 </span>
-                                     <span class="badge flex-grow-1  text-black">
+                                    <span class="badge flex-grow-1  text-black">
                                     {{ $evenement->evenement_type->nom }}
                                 </span>
 
 
-                                    <a href="">edit</a>
+                                    <div class="d-flex gap-2">
+                                        <a href="" class="btn btn-primary btn-sm">
+                                            <i class="bi bi-pencil"></i> Éditer
+                                        </a>
+
+                                        <form action="{{ route('gestion.delete_evenement')}}" method="POST"
+                                              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');">
+                                            @csrf
+                                            @method('POST')
+                                            <input type="hidden" name="selected_date" value="{{$selected_date}}">
+                                            <input type="hidden" name="id" value="{{$evenement->id}}">
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- Contenu détaillé de l'événement (affiché/masqué) -->
                             <div class="container-fluid d-flex justify-content-between row">
-                                <div id="assignmentContent_{{$evenement->id}}" class="toggle-content m-3" style="display:none;">
+                                <div id="assignmentContent_{{$evenement->id}}" class="toggle-content m-3"
+                                     style="display:none;">
                                     <div class="card shadow-sm">
                                         <div class="card-body">
                                             <!-- Nombre de participants -->
@@ -77,18 +95,24 @@
                                             <div class="row my-3">
                                                 <!-- Poneys assignés -->
                                                 @foreach($evenement->poneys as $poney_evenement)
-                                                    <form action="{{ route('update_poney') }}" method="post" class="col-12 col-md-6 mb-3 d-flex flex-column">
+                                                    <form action="{{ route('update_poney') }}" method="post"
+                                                          class="col-12 col-md-6 mb-3 d-flex flex-column">
                                                         @csrf
-                                                        <input type="hidden" name="previous_poney_id" value="{{$poney_evenement->id}}">
-                                                        <input type="hidden" name="evenement_id" value="{{$evenement->id}}">
+                                                        <input type="hidden" name="previous_poney_id"
+                                                               value="{{$poney_evenement->id}}">
+                                                        <input type="hidden" name="evenement_id"
+                                                               value="{{$evenement->id}}">
                                                         <input type="hidden" name="date" value="{{$selected_date}}">
 
                                                         <!-- Sélecteur de poneys -->
                                                         <div class="form-group">
-                                                            <select name="poney_id" class="form-select form-select-sm" onchange="this.form.submit()">
-                                                                <option value="{{$poney_evenement->id}}">{{$poney_evenement->nom}}</option>
+                                                            <select name="poney_id" class="form-select form-select-sm"
+                                                                    onchange="this.form.submit()">
+                                                                <option
+                                                                        value="{{$poney_evenement->id}}">{{$poney_evenement->nom}}</option>
                                                                 @foreach($evenement->get_poneys_availaible() as $poney)
-                                                                    <option value="{{ $poney->id }}" {{ old('poney_id', $poney_evenement->id ?? '') == $poney->id ? 'selected' : '' }}>
+                                                                    <option
+                                                                            value="{{ $poney->id }}" {{ old('poney_id', $poney_evenement->id ?? '') == $poney->id ? 'selected' : '' }}>
                                                                         {{ $poney->nom }}
                                                                     </option>
                                                                 @endforeach
@@ -99,14 +123,17 @@
 
                                                 <!-- Poneys disponibles pour les participants supplémentaires -->
                                                 @for($i = $evenement->qtyOfPoneysSelected(); $i < $evenement->nombre_participant; $i++)
-                                                    <form action="{{ route('update_poney') }}" method="post" class="col-12 col-md-6 mb-3 d-flex flex-column">
+                                                    <form action="{{ route('update_poney') }}" method="post"
+                                                          class="col-12 col-md-6 mb-3 d-flex flex-column">
                                                         @csrf
-                                                        <input type="hidden" name="evenement_id" value="{{$evenement->id}}">
+                                                        <input type="hidden" name="evenement_id"
+                                                               value="{{$evenement->id}}">
                                                         <input type="hidden" name="date" value="{{$selected_date}}">
 
                                                         <!-- Sélecteur pour les poneys non assignés -->
                                                         <div class="form-group">
-                                                            <select name="poney_id" class="form-select form-select-sm" onchange="this.form.submit()">
+                                                            <select name="poney_id" class="form-select form-select-sm"
+                                                                    onchange="this.form.submit()">
                                                                 <option value="" selected>Poney {{$i+1}}</option>
                                                                 @foreach($evenement->get_poneys_availaible() as $poney)
                                                                     <option value="{{ $poney->id }}">
@@ -124,30 +151,7 @@
                                             <div class="d-flex justify-content-between">
                                                 <span>{{$evenement->nombre_participant}} Cavalier(s) attendu(s):</span>
                                             </div>
-                                            <form action="{{route("gestion.add_cavaliers")}}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="evenement_id" value="{{$evenement->id}}">
-                                                <input type="hidden" name="date" value="{{$selected_date}}">
-                                                <div class="mb-2">
-                                                    <div class="row">
-                                                        @foreach($evenement->cavaliers as $cavalier)
-                                                            <div class="col-6 mb-3 ">
-                                                                <input type="text" class="form-control" name="nom[]" value="{{$cavalier->nom}}" id="cavalierNom" placeholder="Nom du cavalier">
-                                                            </div>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                                <div class="mb-2">
-                                                    <div class="row">
-                                                        @for($i = $evenement->cavaliers->count(); $i < $evenement->nombre_participant; $i++)
-                                                            <div class="col-6 mb-3">
-                                                                <input type="text" class="form-control" placeholder="Cavalier {{$i+1}}" name="nom[]" id="cavalierNomExtra">
-                                                            </div>
-                                                        @endfor
-                                                    </div>
-                                                </div>
-                                                <button type="submit" class="d-flex justify-center btn btn-primary btn-sm">Valider</button>
-                                            </form>
+                                            @include('gestion._form_cavalier_event')
 
                                         </div>
                                     </div>
@@ -159,6 +163,7 @@
                 </div>
             </div>
         </div>
+        <!-- Right Content-->
         <div class="col-6 col-md-6 ms-12">
             <div class="card shadow-sm h-100">
                 <!-- En-tête de la carte -->
@@ -166,9 +171,8 @@
                     <h5 class="mb-0">Encoder un nouvel évenement :</h5>
                 </div>
                 <div class="card-body">
-
                     <div class="row">
-                        <form action="{{ route('gestion.index') }}" method="get">
+                        <form action="{{ route('gestion.event_type') }}" method="post">
                             @csrf
                             <input type="hidden" name="evenement_id" value="{{$last_modified_event_id}}">
                             <input type="hidden" name="date" value="{{$selected_date}}">
@@ -176,45 +180,43 @@
                                 <x-select_input name="evenement_type_id" label="Evenement Type"
                                                 :options="$event_types->pluck('nom','id')->toArray()"
                                                 :selected="$selected_event_type_id ?? ''"
-                                                :autopost="true"
+                                                :autopost="false"
                                                 placeholder="Sélectionnez un type d'évenement"
                                 />
                             </div>
+                            <div class="mb-3">
+                                <label for="nombre_participant" class="form-label">Nombre de participants:</label>
+                                <input type="number" id="nombre_participant" name="nombre_participant"
+                                       value="{{$nombre_participant}}"
+                                       class="form-control" required>
+                                @error('nombre_participant')
+                                <div class="alert alert-danger mt-2">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <button type="submit" class="btn btn-outline-primary rounded-0 mt-1 form-control">Valider
+                            </button>
                         </form>
-                        <form action="{{route('new_event')}}" method="post">
-                            @csrf
-                            <input type="hidden" name="evenement_type_id" value="{{$selected_event_type_id}}">
-                            @if($selected_event_type_id == 1)
+                        @if($event_enable)
+
+                            <form action="{{route('new_event')}}" method="post">
+                                @csrf
+                                <input type="hidden" name="nombre_participant" value="{{$nombre_participant}}">
+                                <input type="hidden" name="evenement_type_id" value="{{$selected_event_type_id}}">
                                 @include('gestion._form_association')
-                            @endif
-                            @if($selected_event_type_id == 2)
-                                @include('gestion._form_poney_club')
-                            @endif
-                            @if($selected_event_type_id == 3)
-                                @include('gestion._form_association')
-                            @endif
-                            <button type="submit">Ajouter</button>
-                        </form>
+                                @if($selected_event_type_id == 2)
+                                    @include('gestion._form_cavalier')
+                                @endif
+                                <button type="submit" class="btn btn-outline-primary rounded-0 mt-1 form-control">
+                                    Valider
+                                </button>
+                            </form>
+                        @endif
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        // Fonction pour afficher/masquer le contenu d'un événement
-        function toggleAssignment(contentId) {
-            var content = document.getElementById(contentId);
-            content.style.display = (content.style.display === "none") ? "block" : "none";
-        }
 
-        // Afficher le contenu du premier événement au chargement de la page
-        window.onload = function () {
-            var evenementId = document.querySelector('[name="evenement_id_show"]').value;
-            var contentId = "assignmentContent_" + evenementId;
-            var content = document.getElementById(contentId);
-            if (content) {
-                content.style.display = "block";
-            }
-        };
-    </script>
 @endsection

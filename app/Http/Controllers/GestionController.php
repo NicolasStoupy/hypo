@@ -4,6 +4,8 @@ namespace App\Http\Controllers {
 
     use App\Http\Requests\EvenementPoneyRequest;
     use App\Http\Requests\EvenementRequest;
+    use App\Models\Cavalier;
+    use App\Models\Evenement;
     use App\Models\EvenementPoney;
     use App\Repositories\Interfaces\IApplicationContext;
     use Illuminate\Foundation\Http\FormRequest;
@@ -24,25 +26,33 @@ namespace App\Http\Controllers {
          */
         private function prepareViewModel(Request $request): array
         {
+            // Validation des données de la requête
+            $validated = $request->validate([
+                'nombre_participant' => 'nullable|integer|min:1',
+                'date' => 'nullable|date',
+                'evenement_id' => 'nullable|integer',
+                'evenement_type_id' => 'nullable|integer'
 
-            // Déterminer la date sélectionnée ou utiliser la date actuelle par défaut
-            $selected_date = $request->get('date', date('Y-m-d'));
+            ]);
+            // Récupérer le nombre de participants
+            $nombre_participant = $validated['nombre_participant'] ?? null;
 
-            // Identifiant de l'événement récemment modifié, s'il existe
-            $last_modified_event_id = $request->get('evenement_id');
+            // Récupérer la date sélectionnée
+            $selected_date = $validated['date'] ?? date('Y-m-d');
+            // Récupérer l'identifiant de l'événement modifié
+            $last_modified_event_id = $validated['evenement_id'] ?? null;
 
+            // Récupérer l'identifiant du type d'événement sélectionné
+            $selected_event_type_id = $validated['evenement_type_id'] ?? null;
             // Récupérer les événements pour la date sélectionnée
             $events = $this->repos->evenement()->getEvenementsByDate($selected_date);
-
             // Récupérer tous les poneys et les clients
             $poneys = $this->repos->poney()->getAll();
             $clients = $this->repos->client()->getAll();
 
             // Récupérer les types d'événements disponibles
             $event_types = $this->repos->evenement()->getEvenementTypes();
-
-            // Identifiant du type d'événement sélectionné, s'il existe
-            $selected_event_type_id = $request->get('evenement_type_id');
+            $event_enable = isset($nombre_participant);
 
             // Retourner un tableau compacté avec les données nécessaires à la vue
             return compact(
@@ -52,7 +62,7 @@ namespace App\Http\Controllers {
                 'last_modified_event_id',
                 'event_types',
                 'selected_event_type_id',
-                'clients'
+                'clients', 'nombre_participant', 'event_enable'
             );
         }
 
@@ -63,6 +73,7 @@ namespace App\Http\Controllers {
         {
             return view('gestion.index', $this->prepareViewModel($request));
         }
+
         /**
          * Mettre à jour l'affectation d'un poney à un événement.
          */
@@ -71,21 +82,12 @@ namespace App\Http\Controllers {
             // Ajouter ou modifier l'affectation du poney
             $this->repos->evenement()->addPoney($evenement_poney_request, request()->get('previous_poney_id'));
 
-            // Récupérer les paramètres nécessaires pour la redirection
-            $date = request()->get('date');
-            $evenement_id = request()->get('evenement_id');
-
-            // Si un paramètre 'date' est passé, effectuer la redirection vers la vue correspondante
-            if ($date) {
-                return redirect()->route('gestion.index', [
-                    'date' => $date,
-                    'evenement_id' => $evenement_id
-                ]);
-            }
-
-            session('success')[]=['success'=>'success'];
             // Sinon, effectuer une redirection simple vers la vue de gestion
-            return redirect()->route('gestion.index');
+            return redirect()
+                ->route('gestion.index',
+                    ['evenement_id' => $evenement_poney_request->get('evenement_id'),
+                        'date' => $evenement_poney_request->get('date')]
+                )->with('success', 'Poney mise a jour ');
         }
 
         /**
@@ -93,23 +95,80 @@ namespace App\Http\Controllers {
          */
         public function new_event(EvenementRequest $request)
         {
-            // Création de l'événement via le repository
-            $this->repos->evenement()->create($request);
+
+            if ($request->get('evenement_type_id') === '2') {
+
+                $evenement = $this->repos->evenement()->create($request);
+                $cavaliers = $request->get('cavaliers');
+                $this->repos->evenement()->addCavaliers($cavaliers, $evenement->id);
+
+
+            } else {
+
+                // Création de l'événement via le repository
+                $this->repos->evenement()->create($request);
+            }
+
 
             // Rediriger vers la vue de gestion avec la date de l'événement
             return redirect()->route('gestion.index', ['date' => $request->get('date_evenement')])->with('success', 'Créé avec success');
         }
 
-        public function  add_cavaliers(FormRequest $request)
+
+        public function update_cavaliers(FormRequest $request)
+        {
+            $evenement_id = $request->get('evenement_id');
+            $cavaliers = $request->get('cavaliers');
+
+            // Mise à jour des cavaliers existants
+            if (!empty($cavaliers)) {
+                $this->repos->evenement()->updateCavaliers($cavaliers);
+            }
+            return redirect()->route('gestion.index', [
+                'evenement_id' => $evenement_id,
+                'date' => $request->get('date')
+            ])->with('success', 'Validé avec succès');
+
+        }
+        public function add_cavaliers(FormRequest $request)
         {
 
-            $cavaliers = $request->get('nom');
-            $evenement_id= $request->get('evenement_id');
+            // Récupération des données de la requête
+            $evenement_id = $request->get('evenement_id');
+            $nouveau_cavaliers = $request->get('new_cavalier');
 
-            $this->repos->evenement()->addCavaliers($cavaliers,$evenement_id);
-
-
-            return redirect()->route('gestion.index', ['date' => $request->get('date'),'evenement_id'=>$evenement_id]);
+            // Ajout de nouveaux cavaliers si nécessaire
+            if (!empty($nouveau_cavaliers)) {
+                $this->repos->evenement()->addCavaliers($nouveau_cavaliers, $evenement_id);
+            }
+            // Redirection avec message de succès
+            return redirect()->route('gestion.index', [
+                'evenement_id' => $evenement_id,
+                'date' => $request->get('date')
+            ])->with('success', 'Validé avec succès');
         }
+
+
+        /**
+         * Handles the deletion of an event and prepares the updated view.
+         *
+         * @param Request $request The HTTP request containing the event ID to delete.
+         * @return \Illuminate\Http\RedirectResponse The updated view with a success message.
+         */
+        public function delete_evenement(Request $request)
+        {
+
+            // Retrieve the event ID from the request
+            $evenement_id = $request->get('id');
+            // Delete the event using the repository
+            $this->repos->evenement()->deleteById($evenement_id);
+            return redirect()->route('gestion.index', [
+                    'evenement_id' => $evenement_id,
+                    'date' => $request->get('selected_date')
+                ]
+            )->with('success', 'Événement supprimé avec succès');
+
+        }
+
     }
 }

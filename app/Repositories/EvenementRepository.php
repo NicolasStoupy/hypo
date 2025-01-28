@@ -22,9 +22,10 @@ class EvenementRepository extends BaseRepository implements IEvenement
         parent::__construct(new Evenement());
     }
 
-    public function create(EvenementRequest $EvenementRequest): void
+    public function create(EvenementRequest $EvenementRequest): Evenement
     {
-        Evenement::Create($EvenementRequest->validated());
+        //Evenement::Create($EvenementRequest->validated());
+        return Evenement::create($EvenementRequest->validated());
     }
 
     function update(EvenementRequest $EvenementRequest, $id): void
@@ -99,14 +100,28 @@ class EvenementRepository extends BaseRepository implements IEvenement
 
     function addCavaliers($cavaliers, $evenement_id)
     {
+
         foreach ($cavaliers as $index => $cavalier) {
 
+            if( isset($cavalier)){
+                $new_cavalier = new Cavalier();
+                $new_cavalier->nom = $cavalier;
+                $new_cavalier->evenement_id = $evenement_id;
 
-            $new_cavalier = new Cavalier();
-            $new_cavalier->nom = $cavalier;
-            $new_cavalier->evenement_id = $evenement_id;
-           
-            $new_cavalier->save();
+                $new_cavalier->save();
+            }
+        }
+    }
+
+    public function updateCavaliers(array $cavaliers)
+    {
+        foreach ($cavaliers as $id => $nom) {
+            if(isset($nom)){
+                // Mise à jour du cavalier
+                Cavalier::where('id', $id)->update(['nom' => $nom]);
+            }else{
+                Cavalier::where('id', $id)->delete();
+            }
 
 
         }

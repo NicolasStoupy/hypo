@@ -4,6 +4,7 @@
     <div class="alert alert-danger">
         <ul>
             @foreach ($errors->all() as $error)
+
                 <li>{{ $error }}</li>
             @endforeach
         </ul>
@@ -23,18 +24,6 @@
 @endif
 
     <script>
-        // Sauvegarder la position du scroll avant de quitter la page
-        window.addEventListener('beforeunload', function () {
-            localStorage.setItem('scrollPosition', window.scrollY);
-        });
-
-        // Récupérer la position du scroll lors du chargement de la page
-        window.addEventListener('load', function () {
-            let scrollPosition = localStorage.getItem('scrollPosition');
-            if (scrollPosition) {
-                window.scrollTo(0, scrollPosition); // Remettre au même endroit
-            }
-        });
         document.addEventListener("DOMContentLoaded", function() {
             // Fonction pour afficher un toast
             const showToast = (message, type) => {

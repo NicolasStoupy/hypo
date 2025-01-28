@@ -25,14 +25,7 @@
     <div class="alert alert-danger mt-2">{{ $message }}</div>
     @enderror
 </div>
-<div class="mb-3">
-    <label for="nombre_participant" class="form-label">Nombre de participants:</label>
-    <input type="number" id="nombre_participant" name="nombre_participant"
-           value="{{ old('nombre_participant', $data->nombre_participant ?? '') }}" class="form-control" required>
-    @error('nombre_participant')
-    <div class="alert alert-danger mt-2">{{ $message }}</div>
-    @enderror
-</div>
+
 <div class="mb-3">
     <label for="date_debut" class="form-label">Date de début:</label>
     <input type="datetime-local" id="date_debut" name="date_debut"

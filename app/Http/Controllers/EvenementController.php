@@ -72,7 +72,7 @@ class EvenementController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $this->show($id);
     }
 
     /**
