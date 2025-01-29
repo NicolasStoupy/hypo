@@ -175,7 +175,7 @@
                         <form action="{{ route('gestion.event_type') }}" method="post">
                             @csrf
                             <input type="hidden" name="evenement_id" value="{{ old('last_modified_event_id',$last_modified_event_id)}}">
-                            <input type="hidden" name="date" value="{{ old('selected_date', $selected_date) }}">
+                            <input type="hidden" name="date" value="{{ old('date', $selected_date) }}">
                             <div class="col-12">
                                 <x-select_input name="evenement_type_id" label="Evenement Type"
                                                 :options="$event_types->pluck('nom','id')->toArray()"
@@ -197,13 +197,13 @@
                             <button type="submit" class="btn btn-outline-primary rounded-0 mt-1 form-control">Valider
                             </button>
                         </form>
-                        @if($event_enable || $errors->any())
+                        @if($event_enable || ($errors->any() && !$errors->has('nombre_participant')) )
 
                             <form action="{{route('new_event')}}" method="post">
                                 @csrf
                                 <input type="hidden" name="nombre_participant" value="{{ old('nombre_participant', $nombre_participant) }}">
                                 <input type="hidden" name="evenement_type_id" value="{{ old('evenement_type_id', $selected_event_type_id) }}">
-
+                                <input type="hidden" name="selected_date" value="{{ old('selected_date',$selected_date)}}">
                                 @include('gestion._form_association')
                                 @if($selected_event_type_id == 2)
                                     @include('gestion._form_cavalier')
