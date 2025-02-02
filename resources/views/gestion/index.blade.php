@@ -64,10 +64,15 @@
 
 
                                     <div class="d-flex gap-2">
+                                        <form action="{{ route('facture.facturer_evenement', $evenement->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                <i class="bi bi-file-earmark-earbuds"></i> Facturer
+                                            </button>
+                                        </form>
                                         <a href="" class="btn btn-primary btn-sm">
                                             <i class="bi bi-pencil"></i> Éditer
                                         </a>
-
                                         <form action="{{ route('gestion.delete_evenement')}}" method="POST"
                                               onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');">
                                             @csrf

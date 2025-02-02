@@ -22,7 +22,7 @@ class Evenement extends Model
         'created_by',
         'nom',
         'date_evenement',
-        'status_id','evenement_type_id'
+        'status_id', 'evenement_type_id'
     ];
 
     public function scopeSearch($query, $term)
@@ -49,9 +49,10 @@ class Evenement extends Model
     {
         return $this->belongsTo(Facture::class, 'facture_id');
     }
+
     public function cavaliers()
     {
-        return $this->hasMany(Cavalier::class,'evenement_id');
+        return $this->hasMany(Cavalier::class, 'evenement_id');
     }
 
     public function client()
@@ -76,7 +77,7 @@ class Evenement extends Model
 
     public function evenement_type()
     {
-        return $this->hasOne(EvenementType::class,'id','evenement_type_id');
+        return $this->hasOne(EvenementType::class, 'id', 'evenement_type_id');
     }
 
     public function getTimeRange(): string
@@ -86,6 +87,7 @@ class Evenement extends Model
 
         return $start->format('H:i') . ' à ' . $end->format('H:i');
     }
+
     public function getDuration(): string
     {
         $start = Carbon::parse($this->date_debut);
@@ -94,6 +96,7 @@ class Evenement extends Model
         $difference = $start->diff($end);
         return $difference;
     }
+
     public function isToday(): bool
     {
         return Carbon::parse($this->date_debut)->isToday();
@@ -108,12 +111,18 @@ class Evenement extends Model
         return $roundedDateDebut->eq($roundedNow);
     }
 
-    public function qtyOfPoneysSelected(): int
+    public function get_separed_price()
     {
-       return  $this->poneys->count() ;
+        return $this->prix / $this->cavaliers->count();
     }
 
-    public function get_poneys_availaible(){
+    public function qtyOfPoneysSelected(): int
+    {
+        return $this->poneys->count();
+    }
+
+    public function get_poneys_availaible()
+    {
 
         // Récupérer les poneys déjà assignés à un événement
         $poney_event = $this->poneys()->pluck('id'); // Récupère les IDs des poneys assignés
@@ -124,7 +133,16 @@ class Evenement extends Model
         return $available_poneys;
     }
 
-    public function hasDeletable(){
+    public function remaining_to_bill(){
+
+        $paid_by_cavaliers = $this->cavaliers->sum(function ($cavalier) {
+            return $cavalier->facture->amount??0;
+        });
+        $paid_by_client = $this->facture->amount??0;
+        return $this->prix - $paid_by_cavaliers-$paid_by_client;
+    }
+    public function hasDeletable()
+    {
 
         return $this->facture_id === null;
     }

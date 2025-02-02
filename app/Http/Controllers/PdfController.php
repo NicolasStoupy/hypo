@@ -15,12 +15,13 @@ class PdfController extends Controller
 
     }
 
-    public function facture()
+    public function facture($id)
     {
-        $pdf = App::make('dompdf.wrapper');
-        $facture= $this->repos->facture()->getById(1);
 
-       // return view('templates_factures.t_facture_1', compact('facture'));
+        $pdf = App::make('dompdf.wrapper');
+        $facture = $this->repos->facture()->getById($id);
+
+        // return view('templates_factures.t_facture_1', compact('facture'));
 
         $html = view('templates_factures.t_facture_1', compact('facture'))->render();
 
@@ -29,6 +30,18 @@ class PdfController extends Controller
 
         // Retourner le PDF généré
         return $pdf->stream('facture.pdf');
+    }
+
+    public function facture_by_id($id)
+    {
+
+    }
+
+    public function facture_by_evenement($id)
+    {
+
+        $evenement = $this->repos->evenement()->getById($id);
+
     }
 
 }

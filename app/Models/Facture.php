@@ -30,6 +30,7 @@ class Facture extends Model
         return $this->hasOne(User::class, 'id');
     }
 
+
     public function evenements(): HasMany
     {
         return $this->hasMany(Evenement::class, "facture_id");

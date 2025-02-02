@@ -16,4 +16,9 @@ class Cavalier extends Model
         return $this->belongsTo(Evenement::class);
     }
 
+    public function facture(){
+
+        return $this->hasOne(Facture::class, 'id', 'facture_id');
+    }
+
 }
