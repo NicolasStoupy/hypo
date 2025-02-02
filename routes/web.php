@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EvenementController;
 use App\Http\Controllers\FactureController;
@@ -33,6 +34,7 @@ Route::middleware([App\Http\Middleware\Auth::class, 'auth'])->group(function () 
     Route::match(['get', 'post'], '/facture/facturer_evenement/{id}', [FactureController::class, 'facturer_evenement'])
         ->name('facture.facturer_evenement');
     Route::get('/facture/reverse/{id}/{evenement_id}', [FactureController::class, 'reverse'])->name('facture.reverse');
+    Route::get('/facture/reverse/{evenement_id}', [FactureController::class, 'reverse_event_facturation'])->name('facture.event_reverse');
     Route::post('/facture/facturer_cavalier', [FactureController::class, 'facturer_cavalier'])
         ->name('facture.facturer_cavalier');
     Route::post('/facture/facturation_evenement', [FactureController::class, 'facturation_evenement'])
@@ -58,4 +60,9 @@ Route::middleware([App\Http\Middleware\Auth::class, 'auth'])->group(function () 
     // Routes spécifiques
     Route::post('/select_poney', [GestionController::class, 'selectPoney'])->name('select_poney');
     Route::post('/update_poney', [GestionController::class, 'updatePoney'])->name('update_poney');
+
+    Route::get('/config', [ConfigController::class, 'index'])->name('config.index');
+    Route::post('/config/update', [ConfigController::class, 'update'])->name('config.update');
+
+
 });

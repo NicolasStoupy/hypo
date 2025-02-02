@@ -127,6 +127,13 @@ namespace App\Http\Controllers {
             return $this->facturer_evenement($evenement_id);
         }
 
+        public function reverse_event_facturation($evenement_id){
+
+            $this->repos->facture()->delete_by_evenement($evenement_id);
+            return $this->facturer_evenement($evenement_id);
+
+        }
+
         public function facturation_evenement(Request $request)
         {
             $evenement_id = $request->get('evenement_id');

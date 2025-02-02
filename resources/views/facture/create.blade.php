@@ -49,14 +49,18 @@
                                 </button>
                             </form>
                         @else
-                            <a type="submit" class="btn btn-success btn-sm me-2"
-                               href="{{ route('facture.id', ['id' => $evenement->facture_id]) }}">
-                                <i class="bi bi-file-earmark-pdf"></i> Télécharger Facture
-                            </a>
-                            <a class="btn btn-danger btn-sm me-2"
-                               href="{{ route('facture.reverse', ['id' => $evenement->id,'evenement_id'=>$evenement->id]) }}">
-                                <i class="bi bi-arrow-counterclockwise"></i> Reverse
-                            </a>
+                            @if(isset($evenement->facture_id))
+                                <a type="submit" class="btn btn-success btn-sm me-2"
+                                   href="{{ route('facture.id', ['id' => $evenement->facture_id]) }}" target="_blank">
+                                    <i class="bi bi-file-earmark-pdf"></i> Télécharger Facture
+                                </a>
+                                <a class="btn btn-danger btn-sm me-2"
+                                        href="{{ route('facture.event_reverse', ['evenement_id'=>$evenement->id]) }}">
+                                    <i class="bi bi-arrow-counterclockwise"></i> Reverse
+                                </a>
+                            @endif
+
+
                         @endif
                     </div>
                 </div>
@@ -95,7 +99,7 @@
                                         <!-- Formulaire pour générer la facture -->
 
                                         <a type="submit" class="btn btn-success btn-sm me-2"
-                                           href="{{ route('facture.id', ['id' => $cavalier->facture_id]) }}">
+                                           href="{{ route('facture.id', ['id' => $cavalier->facture_id]) }}"  target="_blank">
                                             <i class="bi bi-file-earmark-pdf"></i> Télécharger Facture
                                         </a>
                                         <a class="btn btn-danger btn-sm me-2"
@@ -120,7 +124,7 @@
                                             </form>
 
                                         @else
-                                            Non facturé
+                                           Facturé sur l'évenement
                                         @endif
 
                                     @endif

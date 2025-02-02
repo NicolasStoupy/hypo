@@ -11,7 +11,7 @@
     <input type="hidden" name="evenement_id_show" value="{{$last_modified_event_id}}">
     <div class="row">
         <!-- Left Content-->
-        <div class="col-6 col-md-6 ms-12">
+        <div class="col-12 col-md-6 ms-12">
             <div class="card hovmagic shadow-sm h-100">
                 <!-- En-tête de la carte -->
                 <div class="card-header bg-primary text-white">
@@ -70,9 +70,7 @@
                                                 <i class="bi bi-file-earmark-earbuds"></i> Facturer
                                             </button>
                                         </form>
-                                        <a href="" class="btn btn-primary btn-sm">
-                                            <i class="bi bi-pencil"></i> Éditer
-                                        </a>
+
                                         <form action="{{ route('gestion.delete_evenement')}}" method="POST"
                                               onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');">
                                             @csrf
@@ -169,7 +167,7 @@
             </div>
         </div>
         <!-- Right Content-->
-        <div class="col-6 col-md-6 ms-12">
+        <div class="col-12 col-md-6 ms-12">
             <div class="card shadow-sm h-100">
                 <!-- En-tête de la carte -->
                 <div class="card-header bg-primary text-white">

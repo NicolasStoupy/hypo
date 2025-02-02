@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 
+use App\Helpers\ConfigHelper;
+use App\Models\Config;
 use App\Repositories\ApplicationContext;
 use App\Repositories\ApplicationRepository;
 use App\Repositories\ClientRepository;
@@ -36,6 +38,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IEvenement::class,EvenementRepository::class);
         $this->app->bind(IFacture::class,FactureRepository::class);
         $this->app->bind(IStatus::class,StatusRepository::class);
+
+
 
     }
 

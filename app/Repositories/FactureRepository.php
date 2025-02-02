@@ -158,4 +158,18 @@ class FactureRepository extends BaseRepository implements IFacture
             $evenement->save();  // Sauvegarde les modifications de l'événement
         });
     }
+
+    public function delete_by_evenement($evenement_id)
+    {
+        $evenement = Evenement::find($evenement_id);
+        $facture_id = $evenement->facture_id;
+        $evenement->facture_id = null;
+        $evenement->save();
+        if(isset($facture_id)){
+            $evenements_count = Cavalier::where('facture_id', $facture_id)->count();
+            if($evenements_count==0){
+                $this->deleteById($facture_id);
+            }
+        }
+    }
 }

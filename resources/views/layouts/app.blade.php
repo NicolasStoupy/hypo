@@ -27,7 +27,7 @@
         <div class="container">
             <!-- Logo -->
             <a class="navbar-brand text-white fw-bold" href="{{ url('/') }}">
-                {{ config('app.name', 'Laravel') }}
+                <img src="/logo_big.png" alt="EquiLibre" height="50">
             </a>
 
             <!-- Toggler for mobile view -->

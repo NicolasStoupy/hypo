@@ -65,38 +65,52 @@
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th>Nom evenement</th>
             <th>Date evenement</th>
-            <th>Prix Total Evenement</th>
-            <th>Cavalier</th>
-            <th>Quantité</th>
-            <th>Prix unitaire</th>
-
-
+            <th>Nom evenement</th>
+            <th colspan="3">Nombre Cavalier</th>
+            <th>Prix Evenement</th>
         </tr>
         </thead>
         <tbody>
+        @php $evenement_tot=$facture->amount; @endphp
+        @foreach($facture->evenements as $evenement)
+            <tr>
+                @php
+                    $htva= number_format(($facture->amount - ($facture->amount* ConfigHelper::get('INVOICE_TAX_RATE')) / 100), 2);
+                @endphp
+                <td>{{ $evenement->date_evenement }}</td>
+                <td>{{ $evenement->nom }}</td>
+                <td colspan="3">{{ $evenement->nombre_participant }}</td>
+                <td>{{ $htva }}{{ConfigHelper::get('INVOICE_CURRENCY')}}</td>
 
-        <tr>
-            @php
-                $htva= number_format(($cavalier->facture->amount - ($cavalier->facture->amount* ConfigHelper::get('INVOICE_TAX_RATE')) / 100), 2);
-            @endphp
-            <td>{{ $cavalier->evenement->nom }}</td>
-            <td>{{ $cavalier->evenement->date_evenement }}</td>
-            <td>{{  $cavalier->evenement->prix }}{{ConfigHelper::get('INVOICE_CURRENCY')}}</td>
-            <td>{{  $cavalier->nom}}</td>
-            <td>1</td>
-            <td>{{ $htva}}{{ConfigHelper::get('INVOICE_CURRENCY')}}</td>
+            </tr>
+            @php $i=0; @endphp
+            @foreach($evenement->cavaliers as $cavalier)
+                @php($i++)
+                <tr>
+                    <td colspan="3">Cavalier {{$i}}</td>
+                    <td colspan="1">{{ $cavalier->nom }}</td>
+                    @if($cavalier->facture)
+                        <td>{{ConfigHelper::get('INVOICE_NUMBER_PREFIX')}}{{ $cavalier->facture->id }}</td>
+                        <td>{{ - $cavalier->facture->amount }}{{ConfigHelper::get('INVOICE_CURRENCY')}}</td>
+                    @else
+                        <td>-</td>
+                        <td>-</td>
+                    @endif
 
+                </tr>
 
-        </tr>
+            @endforeach
+
+        @endforeach
+
         <tr class="total-row">
             <td colspan="5" class="text-end">TVA {{ConfigHelper::get('INVOICE_TAX_RATE')}}%:</td>
-            <td>{{ $cavalier->facture->amount - $htva}}{{ConfigHelper::get('INVOICE_CURRENCY')}}</td>
+            <td>{{$evenement_tot-$htva}}</td>
         </tr>
         <tr class="total-row">
             <td colspan="5" class="text-end">Total:</td>
-            <td>{{$cavalier->facture->amount }}{{ConfigHelper::get('INVOICE_CURRENCY')}}</td>
+            <td>{{$evenement_tot}}{{ConfigHelper::get('INVOICE_CURRENCY')}}</td>
         </tr>
         </tbody>
     </table>
@@ -104,9 +118,12 @@
     <!-- Conditions de paiement -->
     <div class="footer row">
         <div class="col-md-6">
-            <p><strong>Date Limite de Paiement:</strong> {{ $facture->created_at->addDays((int)ConfigHelper::get('INVOICE_PAYMENT_TERMS'))->format('d/m/Y') }}</p>
+            <p><strong>Date Limite de
+                    Paiement:</strong> {{ $facture->created_at->addDays((int)ConfigHelper::get('INVOICE_PAYMENT_TERMS'))->format('d/m/Y') }}
+            </p>
 
-            <p><strong>Conditions de Paiement:</strong> Paiement sous {{ConfigHelper::get('INVOICE_PAYMENT_TERMS')}} jours.</p>
+            <p><strong>Conditions de Paiement:</strong> Paiement sous {{ConfigHelper::get('INVOICE_PAYMENT_TERMS')}}
+                jours.</p>
             <p><strong>Numéro de Compte:</strong> {{ConfigHelper::get('INVOICE_BANKNUMBER')}}</p>
         </div>
         <div class="col-md-6">

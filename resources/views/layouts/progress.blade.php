@@ -52,25 +52,32 @@
         const spinner = document.getElementById('loadingSpinner');
         const overlay = document.getElementById('loadingOverlay');
 
-
         // Afficher le spinner et l'overlay avant la soumission du formulaire
         const forms = document.querySelectorAll('form');
         forms.forEach(form => {
-            form.addEventListener('submit', () => {
+            form.addEventListener('submit', (event) => {
                 overlay.style.display = 'block';
                 spinner.style.display = 'block';
+
+                // Vérifier si la soumission échoue
+                setTimeout(() => {
+                    if (document.body.contains(spinner)) {
+                        overlay.style.display = 'none';
+                        spinner.style.display = 'none';
+                    }
+                }, 300); // Masquer après 5s si pas de rechargement
             });
         });
 
-        // Masquer le spinner et restaurer la position après le chargement de la page
+        // Masquer le spinner après le chargement de la page
         window.addEventListener('load', function () {
             setTimeout(function () {
                 overlay.style.display = 'none';
                 spinner.style.display = 'none';
-
-            }, 250); // 250ms de délai pour éviter des comportements inattendus
+            }, 250);
         });
     });
+
 
 
 

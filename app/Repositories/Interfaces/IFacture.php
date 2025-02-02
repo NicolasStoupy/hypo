@@ -22,5 +22,7 @@ namespace App\Repositories\Interfaces {
         public function creationFactureCavalier(FactureCavalierRequest $request);
         public function creationFactureEvnement($evenement_id);
         public function delete_by_cavalier($cavalier_id);
+
+        public function delete_by_evenement($evenement_id);
     }
 }
