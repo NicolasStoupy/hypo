@@ -90,7 +90,7 @@ class DatabaseSeeder extends Seeder
             ['key' => 'INVOICE_NUMBER_PREFIX', 'value' => 'FACT-', 'type' => 'string'],
             ['key' => 'INVOICE_PAYMENT_TERMS', 'value' => '30', 'type' => 'integer'],
             ['key' => 'INVOICE_CURRENCY', 'value' => '€', 'type' => 'string'],
-            ['key' => 'INVOICE_LOGO_PATH', 'value' => '/logo_big.png', 'type' => 'string'],
+            ['key' => 'INVOICE_LOGO_PATH', 'value' => '/images/logo_50px.png', 'type' => 'string'],
             ['key' => 'INVOICE_ORGANISATION', 'value' => 'Equilibre', 'type' => 'string'],
             ['key' => 'INVOICE_INTERPRISE_ID', 'value' => 'BE085052032', 'type' => 'string'],
             ['key' => 'ADDRESS', 'value' => 'Rue du tisserand 6 5070 Fosses la ville', 'type' => 'string'],
