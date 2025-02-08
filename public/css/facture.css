@@ -1,0 +1,120 @@
+    /* Style pour le container principal */
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+/* En-tête de la facture */
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.company-logo img {
+    width: 120px;
+    height: auto;
+}
+
+.company-info {
+    text-align: right;
+}
+
+.company-info h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.company-info p {
+    margin: 5px 0;
+}
+
+/* Information du client */
+.client-info {
+    margin-bottom: 20px;
+}
+
+.client-info h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.client-info p {
+    margin: 5px 0;
+}
+
+/* Titre de la facture */
+h1 {
+    font-size: 28px;
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* Détails de la facture */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th {
+    background-color: #f2f2f2;
+    text-align: left;
+    padding: 8px;
+    border: 1px solid #ddd;
+    font-weight: bold;
+}
+
+td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+td[colspan="3"] {
+    text-align: center;
+}
+
+.total-row td {
+    font-weight: bold;
+    background-color: #f9f9f9;
+    text-align: right;
+}
+
+.text-end {
+    text-align: right;
+}
+
+table td:nth-child(6), table td:nth-child(7) {
+    text-align: right;
+}
+
+table .total-row td {
+    background-color: #e9ecef;
+}
+
+/* Style pour la section footer */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.footer div {
+    width: 48%;
+}
+
+.footer p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* Si tu veux que les montants négatifs apparaissent en rouge */
+td:nth-child(7):not(:empty) {
+    color: red;
+}
+
+

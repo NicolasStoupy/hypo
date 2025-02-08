@@ -8,32 +8,123 @@
     <!-- Ajout de Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
+        /* Style pour le container principal */
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
             font-family: Arial, sans-serif;
-            margin: 20px;
         }
 
+        /* En-tête de la facture */
         .header {
-            border-bottom: 2px solid #000;
+            display: flex;
+            justify-content: space-between;
             margin-bottom: 20px;
         }
 
-        .company-info, .client-info {
-            margin-bottom: 15px;
+        .company-logo img {
+            width: 120px;
+            height: auto;
         }
 
-        .table th, .table td {
+        .company-info {
+            text-align: right;
+        }
+
+        .company-info h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .company-info p {
+            margin: 5px 0;
+        }
+
+        /* Information du client */
+        .client-info {
+            margin-bottom: 20px;
+        }
+
+        .client-info h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .client-info p {
+            margin: 5px 0;
+        }
+
+        /* Titre de la facture */
+        h1 {
+            font-size: 28px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        /* Détails de la facture */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+            padding: 8px;
+            border: 1px solid #ddd;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        td[colspan="3"] {
             text-align: center;
         }
 
         .total-row td {
             font-weight: bold;
+            background-color: #f9f9f9;
+            text-align: right;
         }
 
+        .text-end {
+            text-align: right;
+        }
+
+        table td:nth-child(6), table td:nth-child(7) {
+            text-align: right;
+        }
+
+        table .total-row td {
+            background-color: #e9ecef;
+        }
+
+        /* Style pour la section footer */
         .footer {
-            margin-top: 30px;
-            border-top: 2px solid #000;
-            padding-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .footer div {
+            width: 48%;
+        }
+
+        .footer p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        /* Si tu veux que les montants négatifs apparaissent en rouge */
+        td:nth-child(7):not(:empty) {
+            color: red;
         }
     </style>
 </head>
@@ -42,7 +133,7 @@
 <div class="container">
     <div class="header d-flex justify-content-between">
         <div class="company-logo">
-            <img src="{{ ConfigHelper::get('INVOICE_LOGO_PATH') }}" alt="Logo" style="width: 150px;">
+            <img src="data:image/png;base64,{{ $logo }}" />
 
         </div>
         <div class="company-info">
@@ -115,9 +206,5 @@
         </div>
     </div>
 </div>
-
-<!-- Ajout de Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

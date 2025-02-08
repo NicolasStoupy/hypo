@@ -35,7 +35,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.6);  /* Légèrement transparent pour l'effet flou */
+        background: rgba(0, 0, 0, 0.2);  /* Légèrement transparent pour l'effet flou */
         backdrop-filter: blur(5px); /* Applique un flou de 5px sur l'arrière-plan */
         -webkit-backdrop-filter: blur(5px); /* Pour Safari et certains anciens navigateurs */
         z-index: 9998;

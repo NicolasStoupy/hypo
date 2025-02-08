@@ -1,4 +1,5 @@
-<!doctype html>
+@php use App\Helpers\ConfigHelper; @endphp
+    <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -17,17 +18,17 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
 
-
 </head>
 <body>
 @include('layouts.progress')
 <div id="app">
 
-    <nav class="navbar navbar-expand-md navbar-light shadow-sm" style="background-color: #007bff;">
+    <nav class="navbar navbar-expand-md navbar-dark shadow-sm" style="background-color: #007bff;">
         <div class="container">
+
             <!-- Logo -->
             <a class="navbar-brand text-white fw-bold" href="{{ url('/') }}">
-                <img src="/logo_big.png" alt="EquiLibre" height="50">
+                <img src="{{ asset(ConfigHelper::get('INVOICE_LOGO_PATH')) }}" height="50" alt="logo">
             </a>
 
             <!-- Toggler for mobile view -->
@@ -45,32 +46,42 @@
                         <a class="nav-link text-white" href="/home">{{ __('Home') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ route('gestion.index') }}">{{ __('Gestion Journalière') }}</a>
-                    </li>   <li class="nav-item">
+                        <a class="nav-link text-white"
+                           href="{{ route('gestion.index') }}">{{ __('Gestion Journalière') }}</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link text-white" href="{{ route('facturier') }}">{{ __('Facturier') }}</a>
                     </li>
                     <li class="nav-item dropdown relative">
                         <!-- Dropdown Toggle Button -->
-                        <a id="navbarDropdown" class="nav-link text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" href="#" role="button"
-                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                        <a id="navbarDropdown"
+                           class="nav-link text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                           href="#" role="button"
+                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Gestion
                         </a>
                         <!-- Dropdown Menu -->
-                        <ul class="dropdown-menu absolute right-0 mt-2 bg-white shadow-lg rounded-lg w-48 ring-1 ring-black ring-opacity-5 focus:outline-none transition-all ease-in-out duration-150" aria-labelledby="navbarDropdown">
+                        <ul class="dropdown-menu absolute right-0 mt-2 bg-white shadow-lg rounded-lg w-48 ring-1 ring-black ring-opacity-5 focus:outline-none transition-all ease-in-out duration-150"
+                            aria-labelledby="navbarDropdown">
                             <li>
-                                <a class="dropdown-item block px-4 py-2 text-gray-700 hover:bg-blue-100 focus:text-blue-700 focus:bg-blue-50 transition-colors duration-200" href="{{ route('poney.index') }}">
-                                   Poneys
+                                <a class="dropdown-item block px-4 py-2 text-gray-700 hover:bg-blue-100 focus:text-blue-700 focus:bg-blue-50 transition-colors duration-200"
+                                   href="{{ route('poney.index') }}">
+                                    Poneys
                                 </a>
-                                <a class="dropdown-item block px-4 py-2 text-gray-700 hover:bg-blue-100 focus:text-blue-700 focus:bg-blue-50 transition-colors duration-200" href="{{ route('client.index') }}">
+                                <a class="dropdown-item block px-4 py-2 text-gray-700 hover:bg-blue-100 focus:text-blue-700 focus:bg-blue-50 transition-colors duration-200"
+                                   href="{{ route('client.index') }}">
                                     Clients
                                 </a>
-                                <a class="dropdown-item block px-4 py-2 text-gray-700 hover:bg-blue-100 focus:text-blue-700 focus:bg-blue-50 transition-colors duration-200" href="{{ route('evenement.index') }}">
+                                <a class="dropdown-item block px-4 py-2 text-gray-700 hover:bg-blue-100 focus:text-blue-700 focus:bg-blue-50 transition-colors duration-200"
+                                   href="{{ route('evenement.index') }}">
                                     Evenements
                                 </a>
-                                <a class="dropdown-item block px-4 py-2 text-gray-700 hover:bg-blue-100 focus:text-blue-700 focus:bg-blue-50 transition-colors duration-200" href="{{ route('facture.index') }}">
+                                <a class="dropdown-item block px-4 py-2 text-gray-700 hover:bg-blue-100 focus:text-blue-700 focus:bg-blue-50 transition-colors duration-200"
+                                   href="{{ route('facture.index') }}">
                                     Factures
                                 </a>
-                                <a class="dropdown-item block px-4 py-2 text-gray-700 hover:bg-blue-100 focus:text-blue-700 focus:bg-blue-50 transition-colors duration-200" href="{{ route('poney.index') }}">
+                                <a class="dropdown-item block px-4 py-2 text-gray-700 hover:bg-blue-100 focus:text-blue-700 focus:bg-blue-50 transition-colors duration-200"
+                                   href="{{ route('poney.index') }}">
                                     Auth
                                 </a>
 
@@ -87,13 +98,15 @@
                     @guest
                         @if (Route::has('login'))
                             <li class="nav-item">
-                                <a class="nav-link btn btn-outline-light me-2" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link btn btn-outline-light me-2"
+                                   href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                         @endif
 
                         @if (Route::has('register'))
                             <li class="nav-item">
-                                <a class="nav-link btn btn-light text-primary" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                <a class="nav-link btn btn-light text-primary"
+                                   href="{{ route('register') }}">{{ __('Register') }}</a>
                             </li>
                         @endif
                     @else

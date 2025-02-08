@@ -5,45 +5,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Facture</title>
-    <!-- Ajout de Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-
-        .header {
-            border-bottom: 2px solid #000;
-            margin-bottom: 20px;
-        }
-
-        .company-info, .client-info {
-            margin-bottom: 15px;
-        }
-
-        .table th, .table td {
-            text-align: center;
-        }
-
-        .total-row td {
-            font-weight: bold;
-        }
-
-        .footer {
-            margin-top: 30px;
-            border-top: 2px solid #000;
-            padding-top: 15px;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/facture.css') }}">
 </head>
 <body>
+
+<style>
+    /* Style pour le container principal */
+    .container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        font-family: Arial, sans-serif;
+    }
+
+    /* En-tête de la facture */
+    .header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .company-logo img {
+        width: 120px;
+        height: auto;
+    }
+
+    .company-info {
+        text-align: right;
+    }
+
+    .company-info h2 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .company-info p {
+        margin: 5px 0;
+    }
+
+    /* Information du client */
+    .client-info {
+        margin-bottom: 20px;
+    }
+
+    .client-info h3 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .client-info p {
+        margin: 5px 0;
+    }
+
+    /* Titre de la facture */
+    h1 {
+        font-size: 28px;
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    /* Détails de la facture */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        text-align: left;
+        padding: 8px;
+        border: 1px solid #ddd;
+        font-weight: bold;
+    }
+
+    td {
+        padding: 8px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    td[colspan="3"] {
+        text-align: center;
+    }
+
+    .total-row td {
+        font-weight: bold;
+        background-color: #f9f9f9;
+        text-align: right;
+    }
+
+    .text-end {
+        text-align: right;
+    }
+
+    table td:nth-child(6), table td:nth-child(7) {
+        text-align: right;
+    }
+
+    table .total-row td {
+        background-color: #e9ecef;
+    }
+
+    /* Style pour la section footer */
+    .footer {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .footer div {
+        width: 48%;
+    }
+
+    .footer p {
+        margin: 5px 0;
+        font-size: 14px;
+    }
+
+    /* Si tu veux que les montants négatifs apparaissent en rouge */
+    td:nth-child(7):not(:empty) {
+        color: red;
+    }
+</style>
 
 <div class="container">
     <div class="header d-flex justify-content-between">
         <div class="company-logo">
-            <img src="{{ ConfigHelper::get('INVOICE_LOGO_PATH') }}" alt="Logo" style="width: 150px;">
-
+            <img src="data:image/png;base64,{{ $logo }}" />
         </div>
         <div class="company-info">
             <h2>{{ConfigHelper::get('INVOICE_ORGANISATION')}}</h2>
@@ -62,7 +152,7 @@
     <p><strong>Date:</strong> {{ $facture->created_at }}</p>
 
     <!-- Table avec les éléments -->
-    <table class="table table-bordered">
+    <table >
         <thead>
         <tr>
             <th>Date evenement</th>
@@ -81,7 +171,7 @@
                 <td>{{ $evenement->date_evenement }}</td>
                 <td>{{ $evenement->nom }}</td>
                 <td colspan="3">{{ $evenement->nombre_participant }}</td>
-                <td>{{ $htva }}{{ConfigHelper::get('INVOICE_CURRENCY')}}</td>
+                <td>{{ $evenement->prix }}{{ConfigHelper::get('INVOICE_CURRENCY')}}</td>
 
             </tr>
             @php $i=0; @endphp
@@ -106,7 +196,7 @@
 
         <tr class="total-row">
             <td colspan="5" class="text-end">TVA {{ConfigHelper::get('INVOICE_TAX_RATE')}}%:</td>
-            <td>{{$evenement_tot-$htva}}</td>
+            <td>{{$evenement_tot-$htva}}{{ConfigHelper::get('INVOICE_CURRENCY')}}</td>
         </tr>
         <tr class="total-row">
             <td colspan="5" class="text-end">Total:</td>
@@ -133,8 +223,6 @@
     </div>
 </div>
 
-<!-- Ajout de Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
 </body>
 </html>
