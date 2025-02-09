@@ -2,10 +2,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container my-5">
+    <div class="container my-1">
         <!-- Header -->
         <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
-            <h1 class="h4 text-primary">Gestion des factures 🐴</h1>
+            <h1 class="h4 text-primary">Résultat 🐴</h1>
             <p class="mb-0 text-muted">
                 <i class="bi bi-calendar-event me-1"></i>
                 {{ Carbon::now()->translatedFormat('l j F Y') }}
@@ -80,11 +80,7 @@
                     </tr>
                     </tfoot>
                 </table>
-                <div class="text-end">
-                    <button class="btn btn-lg btn-primary shadow-sm">
-                        <i class="bi bi-envelope-paper me-2"></i> Envoyer toutes les factures
-                    </button>
-                </div>
+
             </div>
         </div>
         <!-- Mois en cours -->
