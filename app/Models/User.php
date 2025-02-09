@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -46,12 +48,20 @@ class User extends Authenticatable
         ];
     }
 
-
+    /**
+     * Relation avec les événements créés par l'utilisateur.
+     *
+     * @return BelongsToMany
+     */
     public function evenements()
     {
         return $this->belongsToMany(Evenement::class, 'evenement_poneys', 'created_by', 'evenement_id');
     }
-
+    /**
+     * Relation avec les factures créées par l'utilisateur.
+     *
+     * @return HasMany
+     */
     public function factures()
     {
         return $this->hasMany(Facture::class,'created_by');

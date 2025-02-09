@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Poney extends Model
 {
@@ -32,11 +34,20 @@ class Poney extends Model
 
         return $query;
     }
+    /**
+     * Relation avec l'utilisateur qui a créé l'enregistrement.
+     *
+     * @return BelongsTo
+     */
     public function user()
     {
         return $this->belongsTo(User::class, 'created_by');
     }
-
+    /**
+     * Relation avec les événements auxquels ce poney est associé.
+     *
+     * @return BelongsToMany
+     */
     public function evenements()
     {
         return $this->belongsToMany(Evenement::class, 'evenement_poneys', 'poney_id', 'evenement_id')

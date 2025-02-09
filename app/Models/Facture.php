@@ -30,12 +30,20 @@ class Facture extends Model
         return $this->hasOne(User::class, 'id');
     }
 
-
+    /**
+     * Relation avec les événements associés à cette facture.
+     *
+     * @return HasMany
+     */
     public function evenements(): HasMany
     {
         return $this->hasMany(Evenement::class, "facture_id");
     }
-
+    /**
+     * Calcule le total des prix des événements liés à cette facture.
+     *
+     * @return float
+     */
     public function total(){
         return $this->evenements()->sum('prix');
     }

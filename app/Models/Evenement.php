@@ -5,6 +5,10 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Evenement extends Model
 {
@@ -45,41 +49,81 @@ class Evenement extends Model
         return $query;
     }
 
+    /**
+     * Relation avec la facture associée à l'événement.
+     *
+     * @return BelongsTo
+     */
     public function facture()
     {
         return $this->belongsTo(Facture::class, 'facture_id');
     }
 
+    /**
+     * Relation avec les cavaliers participant à l'événement.
+     *
+     * @return HasMany
+     */
     public function cavaliers()
     {
         return $this->hasMany(Cavalier::class, 'evenement_id');
     }
 
+    /**
+     * Relation avec le client associé à l'événement.
+     *
+     * @return BelongsTo
+     */
     public function client()
     {
         return $this->belongsTo(Client::class, 'client_id');
     }
 
+    /**
+     * Relation avec l'utilisateur qui a créé l'événement.
+     *
+     * @return BelongsTo
+     */
     public function user()
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    /**
+     * Relation avec les poneys associés à l'événement via une table pivot.
+     *
+     * @return BelongsToMany
+     */
     public function poneys()
     {
         return $this->belongsToMany(Poney::class, 'evenement_poneys', 'evenement_id', 'poney_id');
     }
 
+    /**
+     * Relation avec le statut de l'événement.
+     *
+     * @return HasOne
+     */
     public function status()
     {
         return $this->hasOne(Status::class, 'id', localKey: 'status_id');
     }
 
+    /**
+     * Relation avec le type d'événement.
+     *
+     * @return HasOne
+     */
     public function evenement_type()
     {
         return $this->hasOne(EvenementType::class, 'id', 'evenement_type_id');
     }
 
+    /**
+     * Retourne la plage horaire de l'événement au format HH:mm à HH:mm.
+     *
+     * @return string
+     */
     public function getTimeRange(): string
     {
         $start = Carbon::parse($this->date_debut);
@@ -88,6 +132,11 @@ class Evenement extends Model
         return $start->format('H:i') . ' à ' . $end->format('H:i');
     }
 
+    /**
+     * Retourne la durée de l'événement sous forme d'objet DateInterval.
+     *
+     * @return \DateInterval
+     */
     public function getDuration(): string
     {
         $start = Carbon::parse($this->date_debut);
@@ -97,11 +146,21 @@ class Evenement extends Model
         return $difference;
     }
 
+    /**
+     * Vérifie si l'événement est prévu pour aujourd'hui.
+     *
+     * @return bool
+     */
     public function isToday(): bool
     {
         return Carbon::parse($this->date_debut)->isToday();
     }
 
+    /**
+     * Vérifie si l'événement est en cours (arrondi à 15 minutes près).
+     *
+     * @return bool
+     */
     public function isNow(): bool
     {
         // Arrondir la date_debut et l'heure actuelle à 15 minutes près
@@ -111,16 +170,31 @@ class Evenement extends Model
         return $roundedDateDebut->eq($roundedNow);
     }
 
+    /**
+     * Calcule le prix par cavalier.
+     *
+     * @return float|null
+     */
     public function get_separed_price()
     {
         return $this->prix / $this->cavaliers->count();
     }
 
+    /**
+     * Retourne la quantité de poneys sélectionnés pour l'événement.
+     *
+     * @return int
+     */
     public function qtyOfPoneysSelected(): int
     {
         return $this->poneys->count();
     }
 
+    /**
+     * Retourne la liste des poneys disponibles (non assignés à un autre événement).
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function get_poneys_availaible()
     {
 
@@ -133,14 +207,26 @@ class Evenement extends Model
         return $available_poneys;
     }
 
-    public function remaining_to_bill(){
+    /**
+     * Calcule le montant restant à facturer après les paiements des cavaliers et du client.
+     *
+     * @return float
+     */
+    public function remaining_to_bill()
+    {
 
         $paid_by_cavaliers = $this->cavaliers->sum(function ($cavalier) {
-            return $cavalier->facture->amount??0;
+            return $cavalier->facture->amount ?? 0;
         });
-        $paid_by_client = $this->facture->amount??0;
-        return $this->prix - $paid_by_cavaliers-$paid_by_client;
+        $paid_by_client = $this->facture->amount ?? 0;
+        return $this->prix - $paid_by_cavaliers - $paid_by_client;
     }
+
+    /**
+     * Vérifie si l'événement peut être supprimé (aucune facture associée).
+     *
+     * @return bool
+     */
     public function hasDeletable()
     {
 
