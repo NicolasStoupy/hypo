@@ -63,6 +63,9 @@ Route::middleware([App\Http\Middleware\Auth::class, 'auth'])->group(function () 
 
     Route::get('/config', [ConfigController::class, 'index'])->name('config.index');
     Route::post('/config/update', [ConfigController::class, 'update'])->name('config.update');
+    Route::get('/periode', function () {
+        return view('periode');
+    });
 
 
 });

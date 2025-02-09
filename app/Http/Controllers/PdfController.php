@@ -17,7 +17,19 @@ class PdfController extends Controller
     {
 
     }
-
+    /**
+     * Génère une facture au format PDF et la retourne en fonction de la configuration.
+     *
+     * Cette méthode récupère la configuration du format de facture, le préfixe du numéro de facture,
+     * et le chemin du logo, puis génère un fichier PDF de la facture associée à l'identifiant `$id`.
+     * Le contenu du PDF est basé sur un template différent en fonction de la présence d'un cavalier
+     * associé à la facture. La facture est ensuite envoyée au client sous forme de téléchargement ou
+     * de diffusion en streaming, selon la configuration définie dans les paramètres.
+     *
+     * @param int $id L'identifiant de la facture à générer.
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Symfony\Component\HttpFoundation\Response Le fichier PDF généré, soit en téléchargement, soit en streaming.
+     */
     public function facture($id)
     {
         // Récupération de la configuration
@@ -49,18 +61,6 @@ class PdfController extends Controller
             'PDF' => $pdf->download($factureName),
             'STREAM' => $pdf->stream($factureName),
         };
-    }
-
-    public function facture_by_id($id)
-    {
-
-    }
-
-    public function facture_by_evenement($id)
-    {
-
-        $evenement = $this->repos->evenement()->getById($id);
-
     }
 
 }

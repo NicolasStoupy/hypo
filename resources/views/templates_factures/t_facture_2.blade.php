@@ -123,7 +123,11 @@
         margin: 5px 0;
         font-size: 14px;
     }
-
+    .small-text {
+        font-size: 0.8em; /* Réduit la taille du texte */
+        color: #888; /* Optionnel : change la couleur pour qu'il soit moins visible */
+        margin-top: 20px; /* Ajoute un peu d'espace au-dessus du texte */
+    }
     /* Si tu veux que les montants négatifs apparaissent en rouge */
     td:nth-child(7):not(:empty) {
         color: red;
@@ -133,7 +137,7 @@
 <div class="container">
     <div class="header d-flex justify-content-between">
         <div class="company-logo">
-            <img src="data:image/png;base64,{{ $logo }}" />
+            <img src="data:image/png;base64,{{ $logo }}"/>
         </div>
         <div class="company-info">
             <h2>{{ConfigHelper::get('INVOICE_ORGANISATION')}}</h2>
@@ -152,7 +156,7 @@
     <p><strong>Date:</strong> {{ $facture->created_at }}</p>
 
     <!-- Table avec les éléments -->
-    <table >
+    <table>
         <thead>
         <tr>
             <th>Date evenement</th>
@@ -219,7 +223,9 @@
         <div class="col-md-6">
             <p><strong>Banque:</strong> {{ConfigHelper::get('INVOICE_BANK')}}</p>
             <p><strong>Code IBAN:</strong> {{ConfigHelper::get('INVOICE_EURBANKNUMBER')}}</p>
+
         </div>
+        <p class="small-text">{{ConfigHelper::get('INVOICE_SALE_CONDITION')}}</p>
     </div>
 </div>
 

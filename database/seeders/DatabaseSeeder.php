@@ -84,19 +84,93 @@ class DatabaseSeeder extends Seeder
 
         EvenementPoney::insert($evenementsPoneys->toArray());
 
+        /**
+         * Insère plusieurs paramètres de configuration dans la base de données.
+         *
+         * Cette insertion initialise diverses configurations utilisées pour la facturation,
+         * telles que le format de la facture, le taux de TVA, la devise, les coordonnées bancaires, etc.
+         * Chaque configuration est stockée avec une clé unique, une valeur et un type.
+         */
         Config::insert([
-            ['key' => 'INVOICE_FORMAT', 'value' => 'PDF', 'type' => 'string'],
-            ['key' => 'INVOICE_TAX_RATE', 'value' => '21', 'type' => 'decimal'],
-            ['key' => 'INVOICE_NUMBER_PREFIX', 'value' => 'FACT-', 'type' => 'string'],
-            ['key' => 'INVOICE_PAYMENT_TERMS', 'value' => '30', 'type' => 'integer'],
-            ['key' => 'INVOICE_CURRENCY', 'value' => '€', 'type' => 'string'],
-            ['key' => 'INVOICE_LOGO_PATH', 'value' => '/images/logo_50px.png', 'type' => 'string'],
-            ['key' => 'INVOICE_ORGANISATION', 'value' => 'Equilibre', 'type' => 'string'],
-            ['key' => 'INVOICE_INTERPRISE_ID', 'value' => 'BE085052032', 'type' => 'string'],
-            ['key' => 'ADDRESS', 'value' => 'Rue du tisserand 6 5070 Fosses la ville', 'type' => 'string'],
-            ['key' => 'INVOICE_BANKNUMBER', 'value' => '052-655-633', 'type' => 'string'],
-            ['key' => 'INVOICE_BANK', 'value' => 'BELFIUS', 'type' => 'string'],
-            ['key' => 'INVOICE_EURBANKNUMBER', 'value' => 'BE063052-655-633', 'type' => 'string'],
+            [
+                'key' => 'INVOICE_FORMAT',
+                'value' => 'PDF',
+                'type' => 'string',
+                'documentation' => 'Format de la facture (PDF ou STREAM)'
+            ],
+            [
+                'key' => 'INVOICE_TAX_RATE',
+                'value' => '21',
+                'type' => 'decimal',
+                'documentation' => 'Taux de TVA en pourcentage'
+            ],
+            [
+                'key' => 'INVOICE_NUMBER_PREFIX',
+                'value' => 'FACT-',
+                'type' => 'string',
+                'documentation' => 'Préfixe utilisé pour la numérotation des factures'
+            ],
+            [
+                'key' => 'INVOICE_PAYMENT_TERMS',
+                'value' => '30',
+                'type' => 'integer',
+                'documentation' => 'Délai de paiement des factures en jours'
+            ],
+            [
+                'key' => 'INVOICE_CURRENCY',
+                'value' => '€',
+                'type' => 'string',
+                'documentation' => 'Devise utilisée pour la facturation'
+            ],
+            [
+                'key' => 'INVOICE_LOGO_PATH',
+                'value' => '/images/logo_50px.png',
+                'type' => 'string',
+                'documentation' => 'Chemin vers le logo affiché sur la facture'
+            ],
+            [
+                'key' => 'INVOICE_ORGANISATION',
+                'value' => 'Equilibre',
+                'type' => 'string',
+                'documentation' => 'Nom de l’organisation'
+            ],
+            [
+                'key' => 'INVOICE_INTERPRISE_ID',
+                'value' => 'BE085052032',
+                'type' => 'string',
+                'documentation' => 'Numéro d’entreprise (TVA, SIRET, etc.)'
+            ],
+            [
+                'key' => 'ADDRESS',
+                'value' => 'Rue du tisserand 6 5070 Fosses la ville',
+                'type' => 'string',
+                'documentation' => 'Adresse de l’entreprise'
+            ],
+            [
+                'key' => 'INVOICE_BANKNUMBER',
+                'value' => '052-655-633',
+                'type' => 'string',
+                'documentation' => 'Numéro de compte bancaire'
+            ],
+            [
+                'key' => 'INVOICE_BANK',
+                'value' => 'BELFIUS',
+                'type' => 'string',
+                'documentation' => 'Nom de la banque'
+            ],
+            [
+                'key' => 'INVOICE_EURBANKNUMBER',
+                'value' => 'BE063052-655-633',
+                'type' => 'string',
+                'documentation' => 'Numéro de compte bancaire en format IBAN'
+            ],
+            [
+                'key' => 'INVOICE_SALE_CONDITION',
+                'value' => 'Merci pour votre confiance ! Veuillez effectuer le paiement avant la date d\'échéance mentionnée. Pour toute question, contactez-nous à info@equilibre.be. En cas de retard de paiement, des pénalités pourront être appliquées selon les conditions générales de vente. À bientôt !',
+                'type' => 'string',
+                'documentation' => 'Condition de ventes '
+            ],
         ]);
+
     }
 }

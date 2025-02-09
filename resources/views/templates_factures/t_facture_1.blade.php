@@ -121,7 +121,11 @@
             margin: 5px 0;
             font-size: 14px;
         }
-
+        .small-text {
+            font-size: 0.8em; /* Réduit la taille du texte */
+            color: #888; /* Optionnel : change la couleur pour qu'il soit moins visible */
+            margin-top: 20px; /* Ajoute un peu d'espace au-dessus du texte */
+        }
         /* Si tu veux que les montants négatifs apparaissent en rouge */
         td:nth-child(7):not(:empty) {
             color: red;
@@ -204,6 +208,7 @@
             <p><strong>Banque:</strong> {{ConfigHelper::get('INVOICE_BANK')}}</p>
             <p><strong>Code IBAN:</strong> {{ConfigHelper::get('INVOICE_EURBANKNUMBER')}}</p>
         </div>
+        <p class="small-text">{{ConfigHelper::get('INVOICE_SALE_CONDITION')}}</p>
     </div>
 </div>
 </body>
