@@ -14,6 +14,8 @@ namespace App\Repositories\Interfaces {
         public function facture():IFacture;
         public function status() :IStatus;
 
+        public function openHours():IOpenHours;
+
 
     }
 }

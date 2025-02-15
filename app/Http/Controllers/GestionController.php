@@ -14,6 +14,7 @@ namespace App\Http\Controllers {
 
     class GestionController extends Controller
     {
+
         // Injection de la dépendance IApplicationContext via le constructeur
         public function __construct(protected IApplicationContext $repos)
         {
@@ -27,6 +28,7 @@ namespace App\Http\Controllers {
          */
         private function prepareViewModel(Request $request): array
         {
+
             // Validation des données de la requête
             $validated = $request->validate([
                 'nombre_participant' => 'nullable|integer|min:1|lte:' . Poney::count(),
@@ -35,14 +37,29 @@ namespace App\Http\Controllers {
                 'evenement_type_id' => 'nullable|integer'
 
             ], [
-                'nombre_participant.lte' => 'Le nombre de participants ne peut pas dépasser le nombre de poneys ('.Poney::count().') disponibles.',
+                'nombre_participant.lte' => 'Le nombre de participants ne peut pas dépasser le nombre de poneys (' . Poney::count() . ') disponibles.',
             ]);
+
 
             // Récupérer le nombre de participants
             $nombre_participant = $validated['nombre_participant'] ?? null;
 
-            // Récupérer la date sélectionnée
-            $selected_date = $validated['date'] ?? date('Y-m-d');
+            $selected_date = date('Y-m-d');
+
+
+            if (isset($validated['date'])) {
+                // Récupérer la date sélectionnée et la stocker en session
+                $selected_date = $validated['date'];
+                session(['selected_date' => $selected_date]);
+            } elseif (session()->has('selected_date')) {
+                // Récupérer la date depuis la session si elle existe
+                $selected_date = session('selected_date');
+            }
+            $open_data = $this->repos->openHours()->IsOpenDay($selected_date);
+            $open = $open_data['is_open'];
+            $week =$open_data['week'];
+            $year= $open_data['year'];
+            $day= $open_data['day'];
             // Récupérer l'identifiant de l'événement modifié
             $last_modified_event_id = $validated['evenement_id'] ?? null;
 
@@ -66,7 +83,7 @@ namespace App\Http\Controllers {
                 'last_modified_event_id',
                 'event_types',
                 'selected_event_type_id',
-                'clients', 'nombre_participant', 'event_enable'
+                'clients', 'nombre_participant', 'event_enable','open','week','year'
             );
         }
 
@@ -78,7 +95,6 @@ namespace App\Http\Controllers {
 
             return view('gestion.index', $this->prepareViewModel($request));
         }
-
 
 
         /**
@@ -119,6 +135,7 @@ namespace App\Http\Controllers {
          */
         public function new_event(EvenementRequest $request)
         {
+
             $evenement = new Evenement();
             // Vérification du type d'événement pour savoir s'il faut ajouter des cavaliers
             if ($request->get('evenement_type_id') === '2') {
@@ -132,14 +149,13 @@ namespace App\Http\Controllers {
                 $this->repos->evenement()->addCavaliers($cavaliers, $evenement->id);
             } else {
                 // Création de l'événement sans association de cavaliers
-                $evenement=  $this->repos->evenement()->create($request);
+                $evenement = $this->repos->evenement()->create($request);
             }
 
             // Redirection vers la page de gestion avec la date de l'événement et un message de succès
-            return redirect()->route('gestion.index', ['date'=>$request->get('date_evenement'),'evenement_id'=>$evenement->id])
+            return redirect()->route('gestion.index', ['date' => $request->get('date_evenement'), 'evenement_id' => $evenement->id])
                 ->with('success', 'Événement créé avec succès');
         }
-
 
 
         /**
@@ -198,7 +214,6 @@ namespace App\Http\Controllers {
                 'date' => $request->get('date')  // Date associée à l'événement
             ])->with('success', 'Cavaliers ajoutés avec succès');
         }
-
 
 
         /**

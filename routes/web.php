@@ -8,10 +8,12 @@ use App\Http\Controllers\EvenementController;
 use App\Http\Controllers\FactureController;
 use App\Http\Controllers\GestionController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OpeningHourController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PoneyController;
 use App\Http\Controllers\PoneyControllerCrud;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\WeeklyOpeningHourController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -66,6 +68,9 @@ Route::middleware([App\Http\Middleware\Auth::class, 'auth'])->group(function () 
     Route::get('/periode', function () {
         return view('periode');
     });
+    Route::get('/horaires-semaine', [WeeklyOpeningHourController::class, 'index'])->name('weekly_hours.index');
+    Route::post('/horaires-semaine', [WeeklyOpeningHourController::class, 'store'])->name('weekly_hours.store');
+    Route::post('/weekly-hours/apply-default-hours', [WeeklyOpeningHourController::class, 'applyDefaultHours'])->name('weekly_hours.apply_default_hours');
 
 
 });

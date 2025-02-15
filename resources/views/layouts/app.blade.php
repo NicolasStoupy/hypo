@@ -20,6 +20,8 @@
 
 </head>
 <body>
+
+
 @include('layouts.progress')
 <div id="app">
 
@@ -83,6 +85,10 @@
                                 <a class="dropdown-item block px-4 py-2 text-gray-700 hover:bg-blue-100 focus:text-blue-700 focus:bg-blue-50 transition-colors duration-200"
                                    href="{{ route('config.index') }}">
                                     Configuration
+                                </a>
+                                <a class="dropdown-item block px-4 py-2 text-gray-700 hover:bg-blue-100 focus:text-blue-700 focus:bg-blue-50 transition-colors duration-200"
+                                   href="{{ route('weekly_hours.index') }}">
+                                    Gestion des heures Ouvertures
                                 </a>
 
                             </li>

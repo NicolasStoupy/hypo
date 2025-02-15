@@ -24,7 +24,6 @@ class EvenementRepository extends BaseRepository implements IEvenement
 
     public function create(EvenementRequest $EvenementRequest): Evenement
     {
-        //Evenement::Create($EvenementRequest->validated());
         return Evenement::create($EvenementRequest->validated());
     }
 

@@ -170,6 +170,18 @@ class DatabaseSeeder extends Seeder
                 'type' => 'string',
                 'documentation' => 'Condition de ventes '
             ],
+            [
+                'key'=>'WEEK_DEFAULT_START_HOUR',
+                'value'=> '09:00',
+                'type' => 'string',
+                'documentation' => 'Heure par défaut d\'ouverture '
+            ],
+            [
+                'key'=>'WEEK_DEFAULT_END_HOUR',
+                'value'=> '15:30',
+                'type' => 'string',
+                'documentation' => 'Heure par défaut de fermeture '
+            ]
         ]);
 
     }
