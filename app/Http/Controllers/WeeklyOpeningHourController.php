@@ -59,6 +59,7 @@ class WeeklyOpeningHourController extends Controller
     public function store(StoreWeeklyOpeningHoursRequest $request)
     {
 
+
         foreach ($request->hours as $day => $data) {
             WeeklyOpeningHour::updateOrCreate(
                 [

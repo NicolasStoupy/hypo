@@ -1,3 +1,4 @@
+
 <div class="mb-3">
     <label for="nom" class="form-label">Nom Evenement:</label>
     <input type="text" id="nom" name="nom" value="{{ old('nom', $data->nom ?? '') }}"

@@ -1,4 +1,4 @@
-@php use App\Helpers\ConfigHelper; @endphp
+@php use App\Helpers\ConfigHelper;use Carbon\Carbon; @endphp
 @extends('layouts.app')
 
 @section('content')
@@ -30,7 +30,9 @@
 
                     <div class="form-group">
                         <label for="default_close_time">Heure de fermeture par défaut</label>
-                        <input type="time" name="default_close_time" value="{{ConfigHelper::get('WEEK_DEFAULT_END_HOUR')}}" id="default_close_time" class="form-control">
+                        <input type="time" name="default_close_time"
+                               value="{{ConfigHelper::get('WEEK_DEFAULT_END_HOUR')}}" id="default_close_time"
+                               class="form-control">
                     </div>
 
                     <button type="submit" class="btn btn-success mt-1 form-control">Appliquer à toute la semaine
@@ -57,7 +59,7 @@
                         @foreach ([0 => 'Lundi', 1 => 'Mardi', 2 => 'Mercredi', 3 => 'Jeudi', 4 => 'Vendredi', 5 => 'Samedi', 6 => 'Dimanche'] as $day => $dayName)
                             @php
                                 // Calcul de la date du jour en fonction de l'année et de la semaine
-                                $date = \Carbon\Carbon::now()->setISODate($currentYear, $currentWeek,$day);
+                                $date = Carbon::now()->setISODate($currentYear, $currentWeek,$day);
                                 $data = $openingHours[$day] ?? null;
                             @endphp
                             <tr>

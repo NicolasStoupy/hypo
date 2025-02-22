@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Repositories\Interfaces\IApplicationContext;
+use App\Repositories\Interfaces\ICleanning;
 use App\Repositories\Interfaces\IClient;
 use App\Repositories\Interfaces\IEvenement;
 use App\Repositories\Interfaces\IFacture;
@@ -18,7 +19,8 @@ class ApplicationContext implements IApplicationContext
                                 protected IEvenement $evenementRepository,
                                 protected IFacture   $factureRepository,
                                 protected IStatus    $statusRepository,
-                                protected IOpenHours $openHoursRepository
+                                protected IOpenHours $openHoursRepository,
+                                protected ICleanning $cleanning
     )
     {
 
@@ -53,5 +55,10 @@ class ApplicationContext implements IApplicationContext
     public function openHours(): IOpenHours
     {
         return $this->openHoursRepository;
+    }
+
+    public function cleaning(): ICleanning
+    {
+       return $this->cleanning;
     }
 }

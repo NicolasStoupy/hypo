@@ -181,6 +181,11 @@ class DatabaseSeeder extends Seeder
                 'value'=> '15:30',
                 'type' => 'string',
                 'documentation' => 'Heure par défaut de fermeture '
+            ],[
+                'key' => 'BOX_DELAY_HOUR',
+                'value' => '1',
+                'type' => 'integer',
+                'documentation'=> 'Interval entre chaque nettoyage des boxs '
             ]
         ]);
 

@@ -26,6 +26,7 @@ class ConfigSeeder extends Seeder
             ['key' => 'INVOICE_BANKNUMBER', 'value' => '052-655-633', 'type' => 'string'],
             ['key' => 'INVOICE_BANK', 'value' => 'BELFIUS', 'type' => 'string'],
             ['key' => 'INVOICE_EURBANKNUMBER', 'value' => 'BE063052-655-633', 'type' => 'string'],
+            ['key' => 'BOX_DELAY_HOUR', 'value' => '1', 'type' => 'string'],
         ]);
 
 

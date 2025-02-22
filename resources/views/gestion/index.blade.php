@@ -101,7 +101,7 @@
                                 </span>
 
 
-                                            <div class="d-flex gap-2">
+                                            <div class="d-flex gap-1">
                                                 <form action="{{ route('facture.facturer_evenement', $evenement->id) }}"
                                                       method="POST">
                                                     @csrf
@@ -120,7 +120,15 @@
                                                     <button type="submit" class="btn btn-danger btn-sm">
                                                         <i class="bi bi-trash"></i>
                                                     </button>
+
                                                 </form>
+                                                <div >
+                                                    <a class="btn btn-info btn-sm" href="/evenement/{{$evenement->id}}">
+                                                        <i class="bi bi-pencil"> </i>
+                                                    </a>
+                                                </div>
+
+
                                             </div>
                                         </div>
                                     </div>

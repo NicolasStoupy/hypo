@@ -13,7 +13,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
@@ -51,6 +51,30 @@
                         <a class="nav-link text-white"
                            href="{{ route('gestion.index') }}">{{ __('Gestion Journalière') }}</a>
                     </li>
+                    <li class="nav-item dropdown relative">
+                        <!-- Dropdown Toggle Button -->
+                        <a id="navbarDropdown"
+                           class="nav-link text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                           href="#" role="button"
+                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Gestion des Boxs
+                        </a>
+                        <!-- Dropdown Menu -->
+                        <ul class="dropdown-menu absolute right-0 mt-2 bg-white shadow-lg rounded-lg w-48 ring-1 ring-black ring-opacity-5 focus:outline-none transition-all ease-in-out duration-150"
+                            aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item block px-4 py-2 text-gray-700 hover:bg-blue-100 focus:text-blue-700 focus:bg-blue-50 transition-colors duration-200"
+                                   href="{{ route('box.index') }}">
+                                    {{ __('Nettoyage des boxes') }}
+                                </a>
+                                <a class="dropdown-item block px-4 py-2 text-gray-700 hover:bg-blue-100 focus:text-blue-700 focus:bg-blue-50 transition-colors duration-200"
+                                   href="{{ route('box.assign_poney') }}">
+                                    {{ __('Configuration des boxes') }}
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="{{ route('facturier') }}">{{ __('Résultat') }}</a>
                     </li>
@@ -79,10 +103,6 @@
                                     Evenements
                                 </a>
                                 <a class="dropdown-item block px-4 py-2 text-gray-700 hover:bg-blue-100 focus:text-blue-700 focus:bg-blue-50 transition-colors duration-200"
-                                   href="{{ route('facture.index') }}">
-                                    Factures
-                                </a>
-                                <a class="dropdown-item block px-4 py-2 text-gray-700 hover:bg-blue-100 focus:text-blue-700 focus:bg-blue-50 transition-colors duration-200"
                                    href="{{ route('config.index') }}">
                                     Configuration
                                 </a>
@@ -95,7 +115,32 @@
 
                         </ul>
                     </li>
+                    <li class="nav-item dropdown relative">
+                        <!-- Dropdown Toggle Button -->
+                        <a id="navbarDropdown"
+                           class="nav-link text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                           href="#" role="button"
+                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Configuration
+                        </a>
+                        <!-- Dropdown Menu -->
+                        <ul class="dropdown-menu absolute right-0 mt-2 bg-white shadow-lg rounded-lg w-48 ring-1 ring-black ring-opacity-5 focus:outline-none transition-all ease-in-out duration-150"
+                            aria-labelledby="navbarDropdown">
+                            <li>
 
+                                <a class="dropdown-item block px-4 py-2 text-gray-700 hover:bg-blue-100 focus:text-blue-700 focus:bg-blue-50 transition-colors duration-200"
+                                   href="{{ route('config.index') }}">
+                                    Variables Applicative
+                                </a>
+                                <a class="dropdown-item block px-4 py-2 text-gray-700 hover:bg-blue-100 focus:text-blue-700 focus:bg-blue-50 transition-colors duration-200"
+                                   href="{{ route('weekly_hours.index') }}">
+                                    Gestion des heures Ouvertures
+                                </a>
+
+                            </li>
+
+                        </ul>
+                    </li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->

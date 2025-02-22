@@ -33,7 +33,8 @@ class PoneyController extends Controller
      */
     public function create()
     {
-        return view('poney.create');
+        $boxs = $this->repos->cleaning()->getAll();
+        return view('poney.create',compact("boxs"));
     }
 
     /**
@@ -54,7 +55,8 @@ class PoneyController extends Controller
     public function show(string $id)
     {
         $data = $this->repos->poney()->getById($id);
-        return view('poney.edit', compact('data'));
+        $boxs = $this->repos->cleaning()->getAll();
+        return view('poney.edit', compact('data','boxs'));
     }
 
     /**
@@ -71,6 +73,7 @@ class PoneyController extends Controller
      */
     public function update(PoneyRequest $request, $id)
     {
+
         $this->repos->poney()->update($request, $id);
 
         // Redirection vers la page d'index avec un message de succès

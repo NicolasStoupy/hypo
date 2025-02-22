@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MemorisePathHelper;
 use App\Http\Requests\AssociationRequest;
 use App\Http\Requests\EvenementRequest;
 use App\Repositories\Interfaces\IApplicationContext;
@@ -53,12 +54,12 @@ class EvenementController extends Controller
     }
 
 
-
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
+        MemorisePathHelper::savePath($_SERVER['HTTP_REFERER']);
         $factures = $this->repos->facture()->getAll();
         $clients = $this->repos->client()->getAll();
         $data = $this->repos->evenement()->getById($id);
@@ -72,6 +73,8 @@ class EvenementController extends Controller
      */
     public function edit(string $id)
     {
+
+
         $this->show($id);
     }
 
@@ -80,8 +83,11 @@ class EvenementController extends Controller
      */
     public function update(EvenementRequest $evenementRequest, string $id)
     {
+
+
         $this->repos->evenement()->update($evenementRequest, $id);
-        return redirect()->route('evenement.index');
+
+        return redirect(MemorisePathHelper::getLastPath());
     }
 
     /**

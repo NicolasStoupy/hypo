@@ -16,6 +16,7 @@ namespace App\Repositories\Interfaces {
 
         public function openHours():IOpenHours;
 
+        public function cleaning():ICleanning;
 
     }
 }

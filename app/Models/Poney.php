@@ -16,7 +16,7 @@ class Poney extends Model
     protected $fillable = [
         'nom',
         'max_hour_by_day',
-        'created_by',
+        'created_by','box_id'
     ];
     public function scopeSearch($query, $term)
     {

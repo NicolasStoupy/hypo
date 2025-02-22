@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Http\Requests\PoneyRequest;
+use App\Models\Boxs;
 use App\Models\Poney;
 use App\Models\PoneyActivityKpi;
 use App\Repositories\Interfaces\IPoney;
@@ -22,6 +23,7 @@ class PoneyRepository extends BaseRepository implements IPoney
 
     public function update(PoneyRequest $poneyRequest, $id): void
     {
+
         $poney = $this->getById($id);
         $poney->update($poneyRequest->validated());
 

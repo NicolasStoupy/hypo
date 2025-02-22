@@ -7,11 +7,13 @@ use App\Helpers\ConfigHelper;
 use App\Models\Config;
 use App\Repositories\ApplicationContext;
 use App\Repositories\ApplicationRepository;
+use App\Repositories\CleanningRepository;
 use App\Repositories\ClientRepository;
 use App\Repositories\EvenementRepository;
 use App\Repositories\FactureRepository;
 use App\Repositories\Interfaces\EmployeeRepositoryInterface;
 use App\Repositories\Interfaces\IApplicationContext;
+use App\Repositories\Interfaces\ICleanning;
 use App\Repositories\Interfaces\IClient;
 use App\Repositories\Interfaces\IEvenement;
 use App\Repositories\Interfaces\IFacture;
@@ -41,6 +43,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IFacture::class,FactureRepository::class);
         $this->app->bind(IStatus::class,StatusRepository::class);
         $this->app->bind(IOpenHours::class,OpenHoursRepository::class);
+        $this->app->bind(ICleanning::class,CleanningRepository::class);
 
 
     }

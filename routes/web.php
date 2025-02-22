@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BoxController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ConfigController;
@@ -72,5 +73,12 @@ Route::middleware([App\Http\Middleware\Auth::class, 'auth'])->group(function () 
     Route::post('/horaires-semaine', [WeeklyOpeningHourController::class, 'store'])->name('weekly_hours.store');
     Route::post('/weekly-hours/apply-default-hours', [WeeklyOpeningHourController::class, 'applyDefaultHours'])->name('weekly_hours.apply_default_hours');
 
+    Route::get('/box/', [BoxController::class,'index'])->name('box.index');
+    Route::get('/box/assign', [BoxController::class,'assign_poney'])->name('box.assign_poney');
+    Route::post('/box/{id}/addPoney', [BoxController::class, 'addPoney'])->name('box.addPoney');
+    Route::delete('/box/{box_id}/poney/{poney_id}/remove', [BoxController::class, 'removePoney'])->name('box.removePoney');
+    Route::post('/box/clean/{box}', [BoxController::class, 'clean'])->name('clean_box');
+    Route::post('/box/new', [BoxController::class, 'create_new_box'])->name('new_box');
+    Route::delete('/box/delete/{id}', [BoxController::class, 'destroy'])->name('delete_box');
 
 });

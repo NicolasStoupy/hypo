@@ -20,6 +20,7 @@ class PoneyRequest extends FormRequest
         // Add 'created_by' to the request before validation
         CreatedBy::Run($this);
 
+
     }
 
     public function rules(): array
@@ -32,6 +33,7 @@ class PoneyRequest extends FormRequest
                 'required',
                 'unique:poneys,nom,' . $poneyId, // Exclure l'enregistrement actuel de la vérification
             ],
+            'box_id' =>'nullable|integer',
             'max_hour_by_day' => 'required|integer|max:24',
             'created_by' => 'required|exists:users,id',
         ];

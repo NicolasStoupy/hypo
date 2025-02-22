@@ -94,9 +94,11 @@ class EvenementRequest extends FormRequest
      */
     private function checkTimeOverlaping()
     {
+
         $overlaps = false; // Initialisation de la variable qui indique si un chevauchement est trouvé
         // Récupérer les événements du même jour
         $evenements_same_day = Evenement::whereDate('date_evenement', $this->date_evenement)
+            ->where('id', '!=', $this->route('evenement'))
             ->get();
 
         // Parcourir tous les événements du même jour
